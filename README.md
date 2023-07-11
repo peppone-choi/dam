@@ -63,5 +63,6 @@ Dam: A threaded forum platform
   * 회원의 상태를 변경, 회원을 삭제하는 API를 만든다.
  
 ## ERD
+![dam_erd](https://github.com/peppone-choi/dam/assets/4508765/1ebdece5-2687-4264-b22e-26b225493923)
 
 ## Trouble Shooting

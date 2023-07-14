@@ -1,4 +1,4 @@
-package com.example.dam;
+package com.peppone.dam;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

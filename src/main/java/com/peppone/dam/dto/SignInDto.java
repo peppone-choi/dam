@@ -15,8 +15,6 @@ import lombok.NoArgsConstructor;
 public class SignInDto {
 
   @Email
-  @NotNull
-  @NotBlank
   private String userEmail;
 
   @NotNull

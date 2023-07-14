@@ -6,6 +6,7 @@ import com.peppone.dam.repository.UserRepository;
 import com.peppone.dam.service.UserService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
@@ -14,6 +15,7 @@ import org.springframework.validation.Errors;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public String signIn(SignInDto signInDto, Errors errors) {
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     UserEntity user = UserEntity.builder()
         .userEmail(signInDto.getUserEmail())
-        .password(signInDto.getPassword())
+        .password(passwordEncoder.encode(signInDto.getPassword()))
         .nickname(signInDto.getNickname())
         .createdDate(LocalDateTime.now())
         .role("USER")

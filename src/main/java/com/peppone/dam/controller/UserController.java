@@ -4,6 +4,7 @@ import com.peppone.dam.dto.SignInDto;
 import com.peppone.dam.service.UserService;
 
 import jakarta.validation.Valid;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -18,8 +19,8 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("/api/sign-in")
-  public ResponseEntity<?> signIn(@RequestBody @Valid SignInDto signIn, Errors errors) {
-    String register = userService.signIn(signIn, errors);
-    return ResponseEntity.ok().body(register);
+  public ResponseEntity<Objects> signIn(@RequestBody @Valid SignInDto signIn, Errors errors) {
+    ResponseEntity register = userService.signIn(signIn, errors);
+    return register;
   }
 }

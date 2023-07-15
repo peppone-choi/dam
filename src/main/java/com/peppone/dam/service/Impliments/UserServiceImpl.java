@@ -6,6 +6,7 @@ import com.peppone.dam.repository.UserRepository;
 import com.peppone.dam.service.UserService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -18,14 +19,14 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
 
   @Override
-  public String signIn(SignInDto signInDto, Errors errors) {
+  public ResponseEntity signIn(SignInDto signInDto, Errors errors) {
 
     if (errors.hasErrors()) {
-      return "회원 가입에 문제가 있습니다";
+      return ResponseEntity.internalServerError().body("회원가입에 문제가 있습니다.");
     }
 
     if (userRepository.findByUserEmail(signInDto.getUserEmail()) != null) {
-      return "이미 가입된 이메일입니다.";
+      return ResponseEntity.badRequest().body("이미 가입된 이메일입니다.");
     }
 
     UserEntity user = UserEntity.builder()
@@ -38,6 +39,6 @@ public class UserServiceImpl implements UserService {
 
     userRepository.save(user);
 
-    return "회원 가입이 완료되었습니다.";
+    return ResponseEntity.ok().body("회원 가입이 완료되었습니다.");
   }
 }

@@ -70,7 +70,7 @@ Dam: A threaded forum platform
 
 * 회원 관리 기능
   - [ ] 회원의 상태를 변경, 회원을 삭제하는 API를 만든다.
- 
+
 ## ERD
 ![image](https://github.com/peppone-choi/dam/assets/4508765/d351c607-90e6-4265-af12-64b020a86a74)
 

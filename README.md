@@ -6,7 +6,11 @@ Dam: A threaded forum platform
 ## Tech Stack
 * Java
 * Spring
+* Spring Boot
+* Spring Security
 * MySQL
+* Data JPA
+* Json Web Token
 * Git
 
 ## 프로젝트 기능 및 설계
@@ -22,7 +26,7 @@ Dam: A threaded forum platform
   - [ ] 사용자는 게시글 제목(텍스트), 게시글 내용(텍스트)를 작성할 수 있다.
 
 * 통합 게시판 목록 조회 기능
-  - [ ] 로그인하지 않은 사용자를 포함한 모든 사용자는 운영자가 정한 게시판들의 게시글을 메인에서 조회할 수 있다.
+  - [ ] 로그인하지 않은 사용자를 포함한 모든 사용자는 major 유형 게시판의 게시글을 메인에서 조회할 수 있다.
   - [ ] 게시글은 최신순으로 기본 정렬되며, 댓글수(많은순 / 적은순), 댓글 작성일, 추천/비추천비율을 구한 특정한 값(비율)으로도 정렬이 가능하다.
   - [ ] 통합 게시글 목록 조회시 응답에는 게시글 제목, 게시판 이름과 작성일, 댓글 수, 댓글 작성일, 추천 수, 비추천 수 의 정보가 필요하다.
   - [ ] 게시글은 종류가 많을수 있으므로 paging 처리를 한다.
@@ -52,8 +56,10 @@ Dam: A threaded forum platform
   - [ ] 로그인 한 사용자는 게시물과 댓글에 추천, 비추천을 할 수 있다.
   - [ ] 1게시물에서 1IP 당 추천/비추천은 한번밖에 할 수 없다.
 
-* 게시판 추가/삭제 기능
+* 게시판 추가 / 삭제 / 관리 기능
   - [ ] 요청이 있을 시 게시판을 추가/삭제할 수 있는 API를 만든다.
+  - [ ] 게시판 추가 시 mini 유형의 게시판이 만들어진다.
+  - [ ] 게시판 관리 API 에서는 게시판 이름, 게시판 url, 게시판 유형(mini, minor, major)을 관리한다.
 
 * 게시글 관리 기능
   - [ ] 게시글, 댓글을 수정 및 삭제할 수 있는 API를 만든다.
@@ -63,6 +69,8 @@ Dam: A threaded forum platform
   - [ ] 회원의 상태를 변경, 회원을 삭제하는 API를 만든다.
  
 ## ERD
-![dam_erd](https://github.com/peppone-choi/dam/assets/4508765/1ebdece5-2687-4264-b22e-26b225493923)
+![image](https://github.com/peppone-choi/dam/assets/4508765/d351c607-90e6-4265-af12-64b020a86a74)
+
+
 
 ## Trouble Shooting

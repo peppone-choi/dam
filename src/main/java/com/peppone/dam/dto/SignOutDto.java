@@ -12,16 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SignInDto {
+public class SignOutDto {
 
   @Email(message = "이메일을 입력 해 주세요.")
   private String userEmail;
 
-  @NotNull
-  @NotBlank(message = "패스워드가 입력되지 않았습니다.")
+  @NotNull(message = "패스워드를 입력 해 주세요.")
+  @NotBlank(message = "패스워드를 입력 해 주세요.")
   private String password;
-
-  @NotNull
-  @NotBlank(message = "닉네임이 입력되지 않았습니다.")
-  private String nickname;
 }

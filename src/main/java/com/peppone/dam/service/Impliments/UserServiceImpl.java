@@ -1,32 +1,43 @@
 package com.peppone.dam.service.Impliments;
 
+import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
+import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
+import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
+
 import com.peppone.dam.domain.UserEntity;
 import com.peppone.dam.dto.SignInDto;
+import com.peppone.dam.dto.SignOutDto;
 import com.peppone.dam.repository.UserRepository;
+import com.peppone.dam.response.CommonResponse;
+import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.service.UserService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final ResponseService responseService;
 
   @Override
-  public ResponseEntity signIn(SignInDto signInDto, Errors errors) {
+  public CommonResponse signIn(SignInDto signInDto) {
 
-    if (errors.hasErrors()) {
-      return ResponseEntity.internalServerError().body("회원가입에 문제가 있습니다.");
+    UserEntity findUser = userRepository.findByUserEmail(signInDto.getUserEmail());
+
+    if (findUser.getRemovedDate() != null) {
+      userRepository.delete(findUser);
     }
 
-    if (userRepository.findByUserEmail(signInDto.getUserEmail()) != null) {
-      return ResponseEntity.badRequest().body("이미 가입된 이메일입니다.");
+    if (findUser != null) {
+      responseService.getErrorResponse(EMAIL_DUPLICATED.getErrorCode(),
+          EMAIL_DUPLICATED.getMessage());
     }
 
     UserEntity user = UserEntity.builder()
@@ -39,6 +50,27 @@ public class UserServiceImpl implements UserService {
 
     userRepository.save(user);
 
-    return ResponseEntity.ok().body("회원 가입이 완료되었습니다.");
+    return responseService.getSingleResponse("회원 가입이 완료 되었습니다.");
+  }
+
+  @Override
+  public CommonResponse signOut(SignOutDto signOut) {
+    UserEntity user = userRepository.findByUserEmail(signOut.getUserEmail());
+
+    if (user == null) {
+      return responseService.getErrorResponse(USER_NOT_FOUND.getErrorCode(),
+          USER_NOT_FOUND.getMessage());
+    }
+
+    if (!passwordEncoder.matches(signOut.getPassword(), user.getPassword())) {
+      return responseService.getErrorResponse(PASSWORD_NOT_MATCH.getErrorCode(),
+          PASSWORD_NOT_MATCH.getMessage());
+    }
+
+    user.setRemovedDate(LocalDateTime.now());
+
+    userRepository.save(user);
+
+    return responseService.getSingleResponse("회원 삭제가 완료 되었습니다.");
   }
 }

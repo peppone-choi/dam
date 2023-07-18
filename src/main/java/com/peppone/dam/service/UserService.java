@@ -1,10 +1,12 @@
 package com.peppone.dam.service;
 
 import com.peppone.dam.dto.SignInDto;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
+import com.peppone.dam.dto.SignOutDto;
+import com.peppone.dam.response.CommonResponse;
 
 public interface UserService {
 
-  ResponseEntity signIn(SignInDto signInDto, Errors errors);
+  CommonResponse signIn(SignInDto signInDto);
+
+  CommonResponse signOut(SignOutDto signOut);
 }

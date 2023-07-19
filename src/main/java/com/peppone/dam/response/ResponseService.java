@@ -22,19 +22,18 @@ public class ResponseService {
     return listResponse;
   }
 
-  public ErrorResponse getErrorResponse(int code, String message) {
-    ErrorResponse errorResponse = new ErrorResponse();
-    errorResponse.success = false;
-    errorResponse.code = code;
-    errorResponse.message = message;
-
-    return errorResponse;
-  }
-
   void setSuccessResponse(CommonResponse response) {
-    response.code = 0;
+    response.code = 20000;
     response.success = true;
     response.message = "SUCCESS";
+  }
+
+  public CommonResponse ErrorResponse(int code, String message) {
+    CommonResponse response = new CommonResponse();
+    response.success = false;
+    response.code = code;
+    response.message = message;
+    return response;
   }
 
 }

@@ -1,11 +1,15 @@
 package com.peppone.dam.controller;
 
+import com.peppone.dam.dto.LoginDto;
 import com.peppone.dam.dto.SignInDto;
 import com.peppone.dam.dto.SignOutDto;
 import com.peppone.dam.response.CommonResponse;
+import com.peppone.dam.response.ResponseService;
+import com.peppone.dam.response.SingleResponse;
 import com.peppone.dam.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,11 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserService userService;
+  private final ResponseService responseService;
 
   @PostMapping("/api/sign-in")
-  public CommonResponse signIn(@RequestBody @Valid SignInDto signIn, boolean emailCheck) {
+  public CommonResponse signIn(@RequestBody @Valid SignInDto signIn) {
     CommonResponse signInResponse = userService.signIn(signIn);
     return signInResponse;
+  }
+
+  @GetMapping("/api/login")
+  public CommonResponse logIn(@RequestBody @Valid LoginDto login) {
+    CommonResponse loginResponse = userService.logIn(login);
+    return loginResponse;
   }
 
   @PatchMapping("/api/sign-out")

@@ -31,13 +31,12 @@ public class UserServiceImpl implements UserService {
 
     UserEntity findUser = userRepository.findByUserEmail(signInDto.getUserEmail());
 
-    if (findUser.getRemovedDate() != null) {
-      userRepository.delete(findUser);
+    if(findUser != null && findUser.getRemovedDate() == null) {
+      return responseService.getErrorResponse(EMAIL_DUPLICATED.getErrorCode(), EMAIL_DUPLICATED.getMessage());
     }
 
-    if (findUser != null) {
-      responseService.getErrorResponse(EMAIL_DUPLICATED.getErrorCode(),
-          EMAIL_DUPLICATED.getMessage());
+    if(findUser != null && findUser.getRemovedDate() != null) {
+      userRepository.delete(findUser);
     }
 
     UserEntity user = UserEntity.builder()
@@ -50,14 +49,14 @@ public class UserServiceImpl implements UserService {
 
     userRepository.save(user);
 
-    return responseService.getSingleResponse("회원 가입이 완료 되었습니다.");
+    return responseService.getSingleResponse(user);
   }
 
   @Override
   public CommonResponse signOut(SignOutDto signOut) {
     UserEntity user = userRepository.findByUserEmail(signOut.getUserEmail());
 
-    if (user == null) {
+    if (user == null || user.getRemovedDate() != null) {
       return responseService.getErrorResponse(USER_NOT_FOUND.getErrorCode(),
           USER_NOT_FOUND.getMessage());
     }
@@ -71,6 +70,6 @@ public class UserServiceImpl implements UserService {
 
     userRepository.save(user);
 
-    return responseService.getSingleResponse("회원 삭제가 완료 되었습니다.");
+    return responseService.getSingleResponse(user.getUserEmail());
   }
 }

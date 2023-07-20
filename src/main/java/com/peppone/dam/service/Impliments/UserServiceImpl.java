@@ -30,15 +30,13 @@ public class UserServiceImpl implements UserService {
   private final ResponseService responseService;
   private final JwtProvider jwtProvider;
 
-
   @Override
   public CommonResponse signIn(SignInDto signInDto) {
 
     UserEntity findUser = userRepository.findByUserEmail(signInDto.getUserEmail());
 
     if (findUser != null && findUser.getRemovedDate() == null) {
-      return responseService.ErrorResponse(EMAIL_DUPLICATED.getErrorCode(),
-          EMAIL_DUPLICATED.getMessage());
+      return responseService.ErrorResponse(EMAIL_DUPLICATED);
     }
 
     if (findUser != null && findUser.getRemovedDate() != null) {
@@ -70,13 +68,11 @@ public class UserServiceImpl implements UserService {
     UserEntity loginUser = userRepository.findByUserEmail(login.getUserEmail());
 
     if (loginUser == null || loginUser.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
+      return responseService.ErrorResponse(USER_NOT_FOUND);
     }
 
     if (!checkPassword(login.getPassword(), loginUser.getPassword())) {
-      return responseService.ErrorResponse(PASSWORD_NOT_MATCH.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
+      return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
     }
     String token = jwtProvider.createToken(String.valueOf(loginUser.getUserEmail()),
         loginUser.getRole());
@@ -88,13 +84,11 @@ public class UserServiceImpl implements UserService {
     UserEntity user = userRepository.findByUserEmail(signOut.getUserEmail());
 
     if (user == null || user.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
+      return responseService.ErrorResponse(USER_NOT_FOUND);
     }
 
     if (!checkPassword(user.getPassword(), signOut.getPassword())) {
-      return responseService.ErrorResponse(PASSWORD_NOT_MATCH.getErrorCode(),
-          PASSWORD_NOT_MATCH.getMessage());
+      return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
     }
 
     user.setRemovedDate(LocalDateTime.now());

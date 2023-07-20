@@ -20,21 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserService userService;
-  private final ResponseService responseService;
 
-  @PostMapping("/api/sign-in")
+  @PostMapping("/api/user/sign-in")
   public CommonResponse signIn(@RequestBody @Valid SignInDto signIn) {
     CommonResponse signInResponse = userService.signIn(signIn);
     return signInResponse;
   }
 
-  @GetMapping("/api/login")
+  @GetMapping("/api/user/login")
   public CommonResponse logIn(@RequestBody @Valid LoginDto login) {
     CommonResponse loginResponse = userService.logIn(login);
     return loginResponse;
   }
 
-  @PatchMapping("/api/sign-out")
+  @PatchMapping("/api/user/sign-out")
   public CommonResponse signOut(@RequestBody @Valid SignOutDto signOut) {
     CommonResponse signOutResponse = userService.signOut(signOut);
     return signOutResponse;

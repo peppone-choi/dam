@@ -20,8 +20,4 @@ public class BoardMakingDto {
   @NotBlank(message = "게시판 id는 필수사항입니다.")
   @NotNull(message = "게시판 id는 필수사항입니다.")
   private String url;
-
-  @NotNull
-  @NotBlank
-  private long boardMakerID;
 }

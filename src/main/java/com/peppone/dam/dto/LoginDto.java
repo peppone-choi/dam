@@ -14,10 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LoginDto {
 
-  @Email(message = "이메일을 입력 해 주세요.")
+  @Email(message = "이메일 양식을 지켜주세요.")
   private String userEmail;
 
-  @NotNull(message = "패스워드를 입력 해 주세요.")
   @NotBlank(message = "패스워드를 입력 해 주세요.")
   private String password;
 }

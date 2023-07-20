@@ -7,4 +7,8 @@ import lombok.Getter;
 public class ListResponse<T> extends CommonResponse {
 
   List<T> dataList;
+
+  public ListResponse(List<T> dataList) {
+    this.dataList = dataList;
+  }
 }

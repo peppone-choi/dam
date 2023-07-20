@@ -4,11 +4,9 @@ import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
 import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 
-import com.peppone.dam.config.JwtProvider;
 import com.peppone.dam.domain.UserEntity;
 import com.peppone.dam.dto.LoginDto;
 import com.peppone.dam.dto.SignInDto;
-import com.peppone.dam.dto.SignOutDto;
 import com.peppone.dam.repository.UserRepository;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
@@ -20,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -79,6 +78,7 @@ public class UserServiceImpl implements UserService {
     return responseService.getSingleResponse(token);
   }
 
+  @Transactional
   @Override
   public CommonResponse signOut(String token) {
     UserEntity user = userRepository.findByUserEmail(tokenService.tokenValidation(token).getUserEmail());

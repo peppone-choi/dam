@@ -6,4 +6,8 @@ import lombok.Getter;
 public class SingleResponse<T> extends CommonResponse {
 
   T data;
+
+  public SingleResponse(T data) {
+    this.data = data;
+  }
 }

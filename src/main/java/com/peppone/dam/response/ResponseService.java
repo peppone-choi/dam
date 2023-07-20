@@ -9,16 +9,14 @@ import org.springframework.stereotype.Service;
 public class ResponseService {
 
   public <T> SingleResponse<T> getSingleResponse(T data) {
-    SingleResponse singleResponse = new SingleResponse();
-    singleResponse.data = data;
+    SingleResponse singleResponse = new SingleResponse(data);
     setSuccessResponse(singleResponse);
 
     return singleResponse;
   }
 
   public <T> ListResponse<T> getListResponse(List<T> dataList) {
-    ListResponse listResponse = new ListResponse();
-    listResponse.dataList = dataList;
+    ListResponse listResponse = new ListResponse(dataList);
     setSuccessResponse(listResponse);
 
     return listResponse;
@@ -31,18 +29,12 @@ public class ResponseService {
   }
 
   public CommonResponse ErrorResponse(ErrorCode errorCode) {
-    CommonResponse response = new CommonResponse();
-    response.success = false;
-    response.code = errorCode.getErrorCode();
-    response.message = errorCode.getMessage();
+    ErrorResponse response = new ErrorResponse(errorCode);
     return response;
   }
 
   public CommonResponse ErrorResponse(HttpStatus httpStatus) {
-    CommonResponse response = new CommonResponse();
-    response.success = false;
-    response.code = httpStatus.value();
-    response.message = httpStatus.name();
+    ErrorResponse response = new ErrorResponse(httpStatus);
     return response;
   }
 

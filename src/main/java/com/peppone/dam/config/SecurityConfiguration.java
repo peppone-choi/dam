@@ -8,15 +8,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-  private static final String[] WHITE_LIST = {
-      "/users/**",
-      "/**"
-  };
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -24,8 +21,9 @@ public class SecurityConfiguration {
         .headers(authorize -> authorize
             .frameOptions().disable())
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers(WHITE_LIST).permitAll()
-            .requestMatchers(PathRequest.toH2Console()).permitAll())
+            .requestMatchers(new AntPathRequestMatcher("/api")).permitAll()
+            .requestMatchers(PathRequest.toH2Console()).permitAll()
+            .anyRequest().permitAll())
         .getOrBuild();
   }
 

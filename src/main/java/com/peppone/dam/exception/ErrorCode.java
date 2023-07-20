@@ -20,7 +20,18 @@ public enum ErrorCode {
   /*
    * 이메일 중복
    */
-  EMAIL_DUPLICATED(0002, "해당 이메일이 이미 존재 합니다.");
+  EMAIL_DUPLICATED(0002, "해당 이메일이 이미 존재 합니다."),
+
+  /*
+   * 게시판 이름 중복
+   */
+  BOARD_NAME_DUPLICATED(0010, "해당 이름의 게시판이 이미 존재합니다."),
+
+
+  /*
+   * 게시판 ID(URL) 중복
+   */
+  BOARD_URL_DUPLICATED(0011, "해당 ID의 게시판이 이미 존재합니다.");
 
   private final int errorCode;
   private final String message;

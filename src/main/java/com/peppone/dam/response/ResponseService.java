@@ -1,6 +1,8 @@
 package com.peppone.dam.response;
 
+import com.peppone.dam.exception.ErrorCode;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,11 +30,19 @@ public class ResponseService {
     response.message = "SUCCESS";
   }
 
-  public CommonResponse ErrorResponse(int code, String message) {
+  public CommonResponse ErrorResponse(ErrorCode errorCode) {
     CommonResponse response = new CommonResponse();
     response.success = false;
-    response.code = code;
-    response.message = message;
+    response.code = errorCode.getErrorCode();
+    response.message = errorCode.getMessage();
+    return response;
+  }
+
+  public CommonResponse ErrorResponse(HttpStatus httpStatus) {
+    CommonResponse response = new CommonResponse();
+    response.success = false;
+    response.code = httpStatus.value();
+    response.message = httpStatus.name();
     return response;
   }
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,7 +47,7 @@ public class UserEntity implements UserDetails {
   private LocalDateTime modifiedDate;
 
   private LocalDateTime removedDate;
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private List<String> role = new ArrayList<>();
 

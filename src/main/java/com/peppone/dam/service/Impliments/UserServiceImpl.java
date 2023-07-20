@@ -12,6 +12,7 @@ import com.peppone.dam.dto.SignOutDto;
 import com.peppone.dam.repository.UserRepository;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
+import com.peppone.dam.service.TokenService;
 import com.peppone.dam.service.UserService;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -28,8 +29,7 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final ResponseService responseService;
-  private final JwtProvider jwtProvider;
-
+  private final TokenService tokenService;
 
   @Override
   public CommonResponse signIn(SignInDto signInDto) {
@@ -37,8 +37,7 @@ public class UserServiceImpl implements UserService {
     UserEntity findUser = userRepository.findByUserEmail(signInDto.getUserEmail());
 
     if (findUser != null && findUser.getRemovedDate() == null) {
-      return responseService.ErrorResponse(EMAIL_DUPLICATED.getErrorCode(),
-          EMAIL_DUPLICATED.getMessage());
+      return responseService.ErrorResponse(EMAIL_DUPLICATED);
     }
 
     if (findUser != null && findUser.getRemovedDate() != null) {
@@ -70,31 +69,22 @@ public class UserServiceImpl implements UserService {
     UserEntity loginUser = userRepository.findByUserEmail(login.getUserEmail());
 
     if (loginUser == null || loginUser.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
+      return responseService.ErrorResponse(USER_NOT_FOUND);
     }
 
     if (!checkPassword(login.getPassword(), loginUser.getPassword())) {
-      return responseService.ErrorResponse(PASSWORD_NOT_MATCH.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
+      return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
     }
-    String token = jwtProvider.createToken(String.valueOf(loginUser.getUserEmail()),
-        loginUser.getRole());
+    String token = tokenService.tokenIssuer(loginUser);
     return responseService.getSingleResponse(token);
   }
 
   @Override
-  public CommonResponse signOut(SignOutDto signOut) {
-    UserEntity user = userRepository.findByUserEmail(signOut.getUserEmail());
+  public CommonResponse signOut(String token) {
+    UserEntity user = userRepository.findByUserEmail(tokenService.tokenValidation(token).getUserEmail());
 
     if (user == null || user.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND.getErrorCode(),
-          USER_NOT_FOUND.getMessage());
-    }
-
-    if (!checkPassword(user.getPassword(), signOut.getPassword())) {
-      return responseService.ErrorResponse(PASSWORD_NOT_MATCH.getErrorCode(),
-          PASSWORD_NOT_MATCH.getMessage());
+      return responseService.ErrorResponse(USER_NOT_FOUND);
     }
 
     user.setRemovedDate(LocalDateTime.now());

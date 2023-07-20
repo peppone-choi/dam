@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends RuntimeException {
 
   private final ResponseService responseService;
 
@@ -17,4 +17,6 @@ public class GlobalExceptionHandler {
   public SingleResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
     return responseService.getSingleResponse(e.getStatusCode());
   }
+
+
 }

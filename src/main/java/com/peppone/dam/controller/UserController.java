@@ -34,8 +34,8 @@ public class UserController {
   }
 
   @PatchMapping("/api/user/sign-out")
-  public CommonResponse signOut(@RequestBody @Valid SignOutDto signOut) {
-    CommonResponse signOutResponse = userService.signOut(signOut);
+  public CommonResponse signOut(@RequestBody @Valid String token) {
+    CommonResponse signOutResponse = userService.signOut(token);
     return signOutResponse;
   }
 }

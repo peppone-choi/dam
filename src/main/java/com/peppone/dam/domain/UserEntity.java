@@ -28,7 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "users")
+@Table(name = "user")
 @Builder
 public class UserEntity implements UserDetails {
 

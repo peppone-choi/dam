@@ -48,8 +48,8 @@ public class PostServiceImpl implements PostService {
         .subject(createPostDto.getSubject())
         .content(createPostDto.getContent())
         .createdTime(LocalDateTime.now())
-        .likes(0)
-        .dislikes(0)
+        .like(0)
+        .dislike(0)
         .likeRatio(0)
         .access(true)
         .build();

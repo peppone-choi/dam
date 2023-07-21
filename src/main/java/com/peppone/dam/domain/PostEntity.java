@@ -37,8 +37,8 @@ public class PostEntity {
   private LocalDateTime createdTime;
   private LocalDateTime modifiedTime;
   private LocalDateTime deletedTime;
-  private long likes;
-  private long dislikes;
+  private long like;
+  private long dislike;
   private double likeRatio;
   private boolean access;
 

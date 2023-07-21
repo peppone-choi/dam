@@ -1,5 +1,6 @@
 package com.peppone.dam.exception;
 
+import com.peppone.dam.response.ErrorResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.response.SingleResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,9 @@ public class GlobalExceptionHandler extends RuntimeException {
 
   private final ResponseService responseService;
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  public SingleResponse<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-    return responseService.getSingleResponse(e.getStatusCode());
+  @ExceptionHandler(Exception.class)
+  public ErrorResponse Exception(Exception e) {
+    return responseService.ErrorResponse(e);
   }
 
 

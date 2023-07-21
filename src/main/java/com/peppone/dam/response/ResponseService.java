@@ -28,13 +28,14 @@ public class ResponseService {
     response.message = "SUCCESS";
   }
 
-  public CommonResponse ErrorResponse(ErrorCode errorCode) {
+  public ErrorResponse ErrorResponse(ErrorCode errorCode) {
     ErrorResponse response = new ErrorResponse(errorCode);
     return response;
   }
 
-  public CommonResponse ErrorResponse(HttpStatus httpStatus) {
-    ErrorResponse response = new ErrorResponse(httpStatus);
+
+  public ErrorResponse ErrorResponse(Exception e) {
+    ErrorResponse response = new ErrorResponse(e);
     return response;
   }
 

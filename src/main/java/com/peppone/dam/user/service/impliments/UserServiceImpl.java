@@ -1,5 +1,6 @@
 package com.peppone.dam.user.service.impliments;
 
+import static com.peppone.dam.exception.ErrorCode.BLOCKED_USER;
 import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
 import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
@@ -74,6 +75,15 @@ public class UserServiceImpl implements UserService {
     if (!checkPassword(login.getPassword(), loginUser.getPassword())) {
       return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
     }
+
+    boolean isBlocked = LocalDateTime.now()
+        .isBefore(
+            loginUser.getBlockedDate().plusDays(loginUser.getBlockDay()));
+
+    if (isBlocked) {
+      return responseService.ErrorResponse(BLOCKED_USER);
+    }
+
     String token = tokenService.tokenIssuer(loginUser);
     return responseService.getSingleResponse(token);
   }

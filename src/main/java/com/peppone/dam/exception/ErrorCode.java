@@ -23,6 +23,11 @@ public enum ErrorCode {
   EMAIL_DUPLICATED(10002, "해당 이메일이 이미 존재 합니다."),
 
   /*
+   * 차단된 유저
+   */
+  BLOCKED_USER(10003, "해당 유저는 차단 되었습니다."),
+
+  /*
    * 게시판 이름 중복
    */
   BOARD_NAME_DUPLICATED(10010, "해당 이름의 게시판이 이미 존재합니다."),

@@ -46,12 +46,14 @@ public class UserEntity implements UserDetails {
 
   private LocalDateTime modifiedDate;
 
+  private LocalDateTime blockedDate;
+
   private LocalDateTime removedDate;
   @ElementCollection(fetch = FetchType.EAGER)
   @Builder.Default
   private List<String> role = new ArrayList<>();
 
-  private int block_day;
+  private int blockDay;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

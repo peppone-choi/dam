@@ -7,8 +7,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,14 +30,26 @@ public class CommentEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "user_id")
   private UserEntity userId;
 
-  @OneToOne
-  @JoinColumn
+  @ManyToOne
+  @JoinColumn(name = "post_id")
   private PostEntity postId;
 
+  private String content;
 
+  private LocalDateTime createdDate;
+
+  private LocalDateTime modifiedDate;
+
+  private LocalDateTime deleteDate;
+
+  private long parentComment;
+
+  private long like;
+
+  private long dislike;
 
 }

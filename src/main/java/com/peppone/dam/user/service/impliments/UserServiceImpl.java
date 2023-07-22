@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public CommonResponse logIn(LoginDto login) {
     UserEntity loginUser = userRepository.findByUserEmail(login.getUserEmail());
+    boolean isBlocked = false;
 
     if (loginUser == null || loginUser.getRemovedDate() != null) {
       return responseService.ErrorResponse(USER_NOT_FOUND);
@@ -76,9 +77,10 @@ public class UserServiceImpl implements UserService {
       return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
     }
 
-    boolean isBlocked = LocalDateTime.now()
-        .isBefore(
-            loginUser.getBlockedDate().plusDays(loginUser.getBlockDay()));
+    if (loginUser.getBlockedDate() != null) {
+      isBlocked = LocalDateTime.now()
+          .isBefore(loginUser.getBlockedDate().plusDays(loginUser.getBlockDay()));
+    }
 
     if (isBlocked) {
       return responseService.ErrorResponse(BLOCKED_USER);

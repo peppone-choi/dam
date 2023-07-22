@@ -40,7 +40,19 @@ public enum ErrorCode {
   /*
    * 해당 게시판이 존재하지 않음
    */
-  BOARD_NOT_FOUND(10020, "해당 게시판이 존재하지 않습니다.");
+  BOARD_NOT_FOUND(10012, "해당 게시판이 존재하지 않습니다."),
+
+  /*
+   * 해당 게시글이 존재하지 않음
+   */
+  POST_NOT_FOUND(10020, "해당 게시글이 존재하지 않습니다."),
+
+
+  /*
+   * 해당 댓글이 존재하지 않음
+   */
+  COMMENT_NOT_FOUND(10030, "해당 댓글이 존재하지 않습니다.");
+
 
   private final int errorCode;
   private final String message;

@@ -1,6 +1,8 @@
 package com.peppone.dam.board.domain;
 
 import com.peppone.dam.user.domain.UserEntity;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,7 +11,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,7 +41,11 @@ public class BoardEntity {
   @Enumerated(EnumType.STRING)
   private BoardType boardType;
 
-  @ManyToOne
+  @OneToOne
   @JoinColumn(name = "admin_id")
-  private UserEntity userEntity;
+  private UserEntity adminId;
+
+  @OneToMany
+  @JoinColumn(name = "sub_admin_id")
+  private List<UserEntity> subAdminId;
 }

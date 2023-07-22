@@ -43,7 +43,7 @@ public class BoardServiceImpl implements BoardService {
         .name(boardMakingDto.getName())
         .url(boardMakingDto.getUrl())
         .boardType(BoardType.BOARD_TYPE_MINI)
-        .userEntity(user)
+        .adminId(user)
         .build();
 
     boardRepository.save(makeBoard);

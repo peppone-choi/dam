@@ -11,5 +11,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
   List<UserEntity> findAll();
 
-  UserEntity findById(Optional<UserEntity> byId);
+  long countByUserEmailAndRemovedDateIsNull(String userEmail);
 }

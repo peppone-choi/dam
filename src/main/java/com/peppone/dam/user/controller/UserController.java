@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,7 +32,7 @@ public class UserController {
   }
 
   @PatchMapping("/api/user/sign-out")
-  public CommonResponse signOut(@RequestBody @Valid String token) {
+  public CommonResponse signOut(@RequestHeader(name = "Authorization") String token) {
     CommonResponse signOutResponse = userService.signOut(token);
     return signOutResponse;
   }

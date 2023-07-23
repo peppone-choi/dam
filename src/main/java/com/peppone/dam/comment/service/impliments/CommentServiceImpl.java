@@ -82,6 +82,7 @@ public class CommentServiceImpl implements CommentService {
 
   private void addCommentNumber(PostEntity post) {
     post.setCommentNumbers(post.getCommentNumbers() + 1);
+    post.setLatestCommentTime(LocalDateTime.now());
     postRepository.save(post);
   }
 }

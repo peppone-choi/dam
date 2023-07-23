@@ -48,6 +48,8 @@ public class PostEntity {
 
   private LocalDateTime deletedTime;
 
+  private LocalDateTime latestCommentTime;
+
   private long like;
 
   private long dislike;

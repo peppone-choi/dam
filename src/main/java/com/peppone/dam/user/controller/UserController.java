@@ -1,8 +1,8 @@
 package com.peppone.dam.user.controller;
 
+import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.user.dto.LoginDto;
 import com.peppone.dam.user.dto.SignInDto;
-import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

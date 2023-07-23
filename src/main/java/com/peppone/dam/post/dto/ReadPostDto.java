@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReadPostDto {
+
   private String subject;
   private String content;
   private long userId;

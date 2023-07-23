@@ -26,6 +26,7 @@ import lombok.Setter;
 @Table(name = "post")
 @Builder
 public class PostEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;

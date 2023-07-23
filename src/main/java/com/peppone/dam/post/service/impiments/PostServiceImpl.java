@@ -98,7 +98,8 @@ public class PostServiceImpl implements PostService {
 
     PostEntity post = postRepository.findById(id).orElseThrow();
 
-    PageRequest pageRequest = PageRequest.of((int) page, (int) size, Sort.by("createdDate").ascending());
+    PageRequest pageRequest = PageRequest.of((int) page, (int) size,
+        Sort.by("createdDate").ascending());
 
     List<ReadCommentDto> comments = commentRepository
         .findAllByPostId(post, pageRequest)

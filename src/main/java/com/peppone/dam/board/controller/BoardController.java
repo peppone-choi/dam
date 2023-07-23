@@ -1,10 +1,10 @@
 package com.peppone.dam.board.controller;
 
-import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.board.dto.BoardMakingDto;
-import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.board.service.BoardService;
+import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.token.TokenService;
+import com.peppone.dam.user.domain.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

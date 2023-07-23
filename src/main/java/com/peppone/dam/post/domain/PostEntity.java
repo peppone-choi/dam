@@ -56,6 +56,8 @@ public class PostEntity {
 
   private boolean access;
 
+  private long commentNumbers;
+
   @Enumerated(EnumType.STRING)
   private PostType postType;
 

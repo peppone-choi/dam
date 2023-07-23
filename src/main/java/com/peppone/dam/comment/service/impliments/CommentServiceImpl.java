@@ -32,16 +32,18 @@ public class CommentServiceImpl implements CommentService {
       responseService.ErrorResponse(POST_NOT_FOUND);
     }
 
-    Optional<PostEntity> post = postRepository.findById(createCommentDto.getPostId());
+    PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();
 
-        CommentEntity comment = CommentEntity.builder()
-            .userId(user)
-            .postId(post.get())
-            .content(createCommentDto.getContent())
-            .createdDate(LocalDateTime.now())
-            .like(0)
-            .dislike(0)
-            .build();
+    addCommentNumber(post);
+
+    CommentEntity comment = CommentEntity.builder()
+        .userId(user)
+        .postId(post)
+        .content(createCommentDto.getContent())
+        .createdDate(LocalDateTime.now())
+        .like(0)
+        .dislike(0)
+        .build();
 
     commentRepository.save(comment);
 
@@ -59,11 +61,13 @@ public class CommentServiceImpl implements CommentService {
       responseService.ErrorResponse(COMMENT_NOT_FOUND);
     }
 
-    Optional<PostEntity> post = postRepository.findById(createCommentDto.getPostId());
+    PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();
+
+    addCommentNumber(post);
 
     CommentEntity comment = CommentEntity.builder()
         .userId(user)
-        .postId(post.orElseThrow())
+        .postId(post)
         .content(createCommentDto.getContent())
         .createdDate(LocalDateTime.now())
         .parentComment(id)
@@ -74,5 +78,10 @@ public class CommentServiceImpl implements CommentService {
     commentRepository.save(comment);
 
     return responseService.getSingleResponse(comment);
+  }
+
+  private void addCommentNumber(PostEntity post) {
+    post.setCommentNumbers(post.getCommentNumbers() + 1);
+    postRepository.save(post);
   }
 }

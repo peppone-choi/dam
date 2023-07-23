@@ -5,6 +5,7 @@ import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 
 import com.peppone.dam.board.domain.BoardEntity;
 import com.peppone.dam.post.domain.PostEntity;
+import com.peppone.dam.post.dto.ReadPostDto;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.post.dto.CreatePostDto;
 import com.peppone.dam.exception.ErrorCode;
@@ -60,8 +61,6 @@ public class PostServiceImpl implements PostService {
 
     postRepository.save(post);
 
-
-
     return responseService.getSingleResponse(post);
   }
 
@@ -76,8 +75,18 @@ public class PostServiceImpl implements PostService {
       responseService.ErrorResponse(POST_ACCESS_IS_DENIED);
     }
 
-    Optional<PostEntity> post = postRepository.findById(id);
+    PostEntity post = postRepository.findById(id).orElseThrow();
 
-    return responseService.getSingleResponse(post);
+    ReadPostDto postDto = ReadPostDto.builder()
+        .subject(post.getSubject())
+        .content(post.getContent())
+        .userId(post.getUserId().getId())
+        .createdTime(post.getCreatedTime())
+        .like(post.getLike())
+        .dislike(post.getDislike())
+        .commentNumbers(post.getCommentNumbers())
+        .build();
+
+    return responseService.getSingleResponse(postDto);
   }
 }

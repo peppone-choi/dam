@@ -17,5 +17,5 @@ public class ReadPostDto {
   private LocalDateTime createdTime;
   private long like;
   private long dislike;
-
+  private long commentNumbers;
 }

@@ -84,6 +84,7 @@ public class PostServiceImpl implements PostService {
         .createdTime(post.getCreatedTime())
         .like(post.getLike())
         .dislike(post.getDislike())
+        .commentNumbers(post.getCommentNumbers())
         .build();
 
     return responseService.getSingleResponse(postDto);

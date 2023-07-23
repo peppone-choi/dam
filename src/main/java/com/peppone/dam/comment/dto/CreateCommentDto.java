@@ -1,6 +1,5 @@
 package com.peppone.dam.comment.dto;
 
-import com.peppone.dam.post.domain.PostEntity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

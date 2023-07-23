@@ -3,13 +3,13 @@ package com.peppone.dam.board.service.impliments;
 import com.peppone.dam.board.domain.BoardEntity;
 import com.peppone.dam.board.domain.BoardType;
 import com.peppone.dam.board.dto.BoardListDto;
-import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.board.dto.BoardMakingDto;
-import com.peppone.dam.exception.ErrorCode;
 import com.peppone.dam.board.repository.BoardRepository;
+import com.peppone.dam.board.service.BoardService;
+import com.peppone.dam.exception.ErrorCode;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
-import com.peppone.dam.board.service.BoardService;
+import com.peppone.dam.user.domain.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,6 @@ public class BoardServiceImpl implements BoardService {
   public CommonResponse makeBoard(BoardMakingDto boardMakingDto, UserEntity user) {
     boolean boardExistByName = boardRepository.existsByName(boardMakingDto.getName());
     boolean boardExistByUrl = boardRepository.existsByUrl(boardMakingDto.getUrl());
-
 
     if (boardExistByName) {
       return responseService.ErrorResponse(ErrorCode.BOARD_NAME_DUPLICATED);

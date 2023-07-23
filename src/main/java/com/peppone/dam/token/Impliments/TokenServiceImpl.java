@@ -2,9 +2,9 @@ package com.peppone.dam.token.Impliments;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.peppone.dam.token.TokenService;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.user.repository.UserRepository;
-import com.peppone.dam.token.TokenService;
 import com.peppone.dam.util.JWTUtil;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
+
   private final UserRepository userRepository;
 
   @Override
@@ -28,7 +29,7 @@ public class TokenServiceImpl implements TokenService {
 
     String token = JWT.create()
         .withExpiresAt(expiration)
-        .withClaim("user_id",user.getId())
+        .withClaim("user_id", user.getId())
         .withSubject(user.getUserEmail())
         .withIssuer(user.getUserEmail())
         .sign(Algorithm.HMAC512("plazadeladignidad".getBytes()));

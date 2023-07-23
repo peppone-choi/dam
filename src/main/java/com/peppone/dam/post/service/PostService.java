@@ -1,5 +1,6 @@
 package com.peppone.dam.post.service;
 
+import com.peppone.dam.post.domain.OrderType;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.post.dto.CreatePostDto;
 import com.peppone.dam.response.CommonResponse;
@@ -12,4 +13,11 @@ public interface PostService {
   CommonResponse readPost(long id);
 
   CommonResponse readPostComment(long id, long page, long size, Pageable pageable);
+
+  CommonResponse getBoardPostList(String id, long page, long size, OrderType order,
+      boolean orderDirection, Pageable pageable);
+
+  CommonResponse getBoardPinnedPostList(String id);
+
+  CommonResponse getBoardNoticePostList(String id);
 }

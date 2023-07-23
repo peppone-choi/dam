@@ -7,4 +7,6 @@ import com.peppone.dam.response.CommonResponse;
 public interface PostService {
 
   CommonResponse createPost(UserEntity user, CreatePostDto createPostDto);
+
+  CommonResponse readPost(long id);
 }

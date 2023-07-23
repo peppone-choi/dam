@@ -7,6 +7,8 @@ import com.peppone.dam.post.service.PostService;
 import com.peppone.dam.token.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,6 +27,12 @@ public class PostController {
     UserEntity user = tokenService.tokenValidation(token);
     CommonResponse createPostResponse = postService.createPost(user, createPostDto);
     return createPostResponse;
+  }
+
+  @GetMapping("/api/board/{id}")
+  public CommonResponse readPost(@PathVariable long id) {
+    CommonResponse readPostResponse = postService.readPost(id);
+    return readPostResponse;
   }
 
 }

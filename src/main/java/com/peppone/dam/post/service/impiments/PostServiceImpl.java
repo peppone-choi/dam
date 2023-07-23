@@ -67,7 +67,7 @@ public class PostServiceImpl implements PostService {
 
     postRepository.save(post);
 
-    return responseService.getSingleResponse(post);
+    return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
   @Override
@@ -83,17 +83,7 @@ public class PostServiceImpl implements PostService {
 
     PostEntity post = postRepository.findById(id).orElseThrow();
 
-    ReadPostDto postDto = ReadPostDto.builder()
-        .subject(post.getSubject())
-        .content(post.getContent())
-        .userId(post.getUserId().getId())
-        .createdTime(post.getCreatedTime())
-        .like(post.getLike())
-        .dislike(post.getDislike())
-        .commentNumbers(post.getCommentNumbers())
-        .build();
-
-    return responseService.getSingleResponse(postDto);
+    return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
   @Override

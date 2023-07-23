@@ -5,13 +5,14 @@ import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
 import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 
-import com.peppone.dam.user.domain.UserEntity;
-import com.peppone.dam.user.dto.LoginDto;
-import com.peppone.dam.user.dto.SignInDto;
-import com.peppone.dam.user.repository.UserRepository;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.token.TokenService;
+import com.peppone.dam.user.domain.UserEntity;
+import com.peppone.dam.user.dto.LoginDto;
+import com.peppone.dam.user.dto.SignInDto;
+import com.peppone.dam.user.dto.UserInfoDto;
+import com.peppone.dam.user.repository.UserRepository;
 import com.peppone.dam.user.service.UserService;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -34,14 +35,8 @@ public class UserServiceImpl implements UserService {
   @Override
   public CommonResponse signIn(SignInDto signInDto) {
 
-    UserEntity findUser = userRepository.findByUserEmail(signInDto.getUserEmail());
-
-    if (findUser != null && findUser.getRemovedDate() == null) {
+    if (userRepository.countByUserEmailAndRemovedDateIsNull(signInDto.getUserEmail()) > 0) {
       return responseService.ErrorResponse(EMAIL_DUPLICATED);
-    }
-
-    if (findUser != null && findUser.getRemovedDate() != null) {
-      userRepository.delete(findUser);
     }
 
     UserEntity user = UserEntity.builder()
@@ -54,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     userRepository.save(user);
 
-    return responseService.getSingleResponse(user);
+    return responseService.getSingleResponse(UserInfoDto.from(user));
   }
 
   public boolean checkPassword(String encoded, String decoded) {
@@ -93,7 +88,8 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @Override
   public CommonResponse signOut(String token) {
-    UserEntity user = userRepository.findByUserEmail(tokenService.tokenValidation(token).getUserEmail());
+    UserEntity user = userRepository.findByUserEmail(
+        tokenService.tokenValidation(token).getUserEmail());
 
     if (user == null || user.getRemovedDate() != null) {
       return responseService.ErrorResponse(USER_NOT_FOUND);
@@ -105,5 +101,4 @@ public class UserServiceImpl implements UserService {
 
     return responseService.getSingleResponse(user.getUserEmail());
   }
-
 }

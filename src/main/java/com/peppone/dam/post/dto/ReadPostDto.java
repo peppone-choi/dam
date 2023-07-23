@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ReadPostDto {
 
+  private long id;
   private String subject;
   private String content;
   private long userId;
@@ -23,6 +24,7 @@ public class ReadPostDto {
 
   public static ReadPostDto from(PostEntity postEntity) {
     return ReadPostDto.builder()
+        .id(postEntity.getId())
         .subject(postEntity.getSubject())
         .content(postEntity.getContent())
         .userId(postEntity.getUserId().getId())

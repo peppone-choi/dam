@@ -2,13 +2,18 @@ package com.peppone.dam.post.service.impiments;
 
 import static com.peppone.dam.exception.ErrorCode.POST_ACCESS_IS_DENIED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
+import static com.peppone.dam.post.domain.PostType.POST_TYPE_GENERAL;
+import static com.peppone.dam.post.domain.PostType.POST_TYPE_NOTICE;
+import static com.peppone.dam.post.domain.PostType.POST_TYPE_PINNED;
 
 import com.peppone.dam.board.domain.BoardEntity;
 import com.peppone.dam.board.repository.BoardRepository;
 import com.peppone.dam.comment.dto.ReadCommentDto;
 import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.exception.ErrorCode;
+import com.peppone.dam.post.domain.OrderType;
 import com.peppone.dam.post.domain.PostEntity;
+import com.peppone.dam.post.domain.PostType;
 import com.peppone.dam.post.dto.CreatePostDto;
 import com.peppone.dam.post.dto.ReadPostDto;
 import com.peppone.dam.post.repository.PostRepository;
@@ -18,8 +23,8 @@ import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.user.repository.UserRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -103,8 +108,71 @@ public class PostServiceImpl implements PostService {
 
     List<ReadCommentDto> comments = commentRepository
         .findAllByPostId(post, pageRequest)
-        .stream().map(ReadCommentDto::from).collect(Collectors.toList());
+        .stream().map(ReadCommentDto::from).toList();
 
     return responseService.getListResponse(comments);
   }
+
+  @Override
+  public CommonResponse getBoardPostList(String id, long page, long size, OrderType order,
+      boolean orderDirection, Pageable pageable) {
+
+    PageRequest pageRequest = null;
+
+    if(orderDirection) {
+      pageRequest = PageRequest.of((int) page, (int) size,
+          Sort.by(order.toString()).descending());
+    } else {
+      pageRequest = PageRequest.of((int) page, (int) size,
+          Sort.by(order.toString()).ascending());
+    }
+
+    if (!boardRepository.existsByUrl(id)) {
+      return responseService.ErrorResponse(ErrorCode.BOARD_NOT_FOUND);
+    }
+
+    BoardEntity board = boardRepository.findByUrl(id);
+
+    List<ReadPostDto> posts = getPostByType(board, pageRequest, POST_TYPE_GENERAL);
+
+    return responseService.getListResponse(posts);
+  }
+
+  @Override
+  public CommonResponse getBoardPinnedPostList(String id) {
+    if (!boardRepository.existsByUrl(id)) {
+      return responseService.ErrorResponse(ErrorCode.BOARD_NOT_FOUND);
+    }
+
+    BoardEntity board = boardRepository.findByUrl(id);
+
+    List<ReadPostDto> posts = getPostByType(board, PageRequest.of(0, 3,
+        Sort.by("id").descending()), POST_TYPE_PINNED);
+
+    return responseService.getListResponse(posts);
+  }
+
+  @Override
+  public CommonResponse getBoardNoticePostList(String id) {
+    if (!boardRepository.existsByUrl(id)) {
+      return responseService.ErrorResponse(ErrorCode.BOARD_NOT_FOUND);
+    }
+
+    BoardEntity board = boardRepository.findByUrl(id);
+
+    List<ReadPostDto> posts = getPostByType(board, PageRequest.of(0, 3,
+        Sort.by("id").descending()), POST_TYPE_NOTICE);
+
+    return responseService.getListResponse(posts);
+  }
+
+  private List<ReadPostDto> getPostByType(BoardEntity board, PageRequest pageRequest,
+      PostType postType) {
+    return postRepository
+        .findAllByBoardIdAndPostTypeAndAccessTrue(board, pageRequest, postType)
+        .stream().map(ReadPostDto::from).toList();
+  }
+
 }
+
+

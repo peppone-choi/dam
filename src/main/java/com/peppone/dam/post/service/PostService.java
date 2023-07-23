@@ -11,5 +11,5 @@ public interface PostService {
 
   CommonResponse readPost(long id);
 
-  CommonResponse readPostComment(long id, Pageable pageable);
+  CommonResponse readPostComment(long id, long page, long size, Pageable pageable);
 }

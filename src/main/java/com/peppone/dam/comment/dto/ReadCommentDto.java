@@ -17,6 +17,8 @@ import lombok.Setter;
 @Setter
 public class ReadCommentDto {
 
+  private long commentId;
+
   private long userId;
 
   private String userNickname;
@@ -25,18 +27,23 @@ public class ReadCommentDto {
 
   private LocalDateTime commentCreatedTime;
 
-  private LocalDateTime CommentModifiedTime;
+  private LocalDateTime commentModifiedTime;
 
   private long like;
 
   private long dislike;
 
+  private long parentComment;
+
   public static ReadCommentDto from(CommentEntity commentEntity) {
-    return ReadCommentDto.builder().userId(commentEntity.getUserId().getId())
+    return ReadCommentDto.builder()
+        .commentId(commentEntity.getId())
+        .parentComment(commentEntity.getParentComment())
+        .userId(commentEntity.getUserId().getId())
         .userNickname(commentEntity.getUserId().getNickname())
         .content(commentEntity.getContent())
         .commentCreatedTime(commentEntity.getCreatedDate())
-        .CommentModifiedTime(commentEntity.getModifiedDate())
+        .commentModifiedTime(commentEntity.getModifiedDate())
         .like(commentEntity.getLike())
         .dislike(commentEntity.getDislike())
         .build();

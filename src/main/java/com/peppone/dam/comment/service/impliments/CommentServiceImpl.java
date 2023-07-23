@@ -5,6 +5,7 @@ import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 
 import com.peppone.dam.comment.domain.CommentEntity;
 import com.peppone.dam.comment.dto.CreateCommentDto;
+import com.peppone.dam.comment.dto.ReadCommentDto;
 import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.comment.service.CommentService;
 import com.peppone.dam.post.domain.PostEntity;
@@ -47,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     commentRepository.save(comment);
 
-    return responseService.getSingleResponse(comment);
+    return responseService.getSingleResponse(ReadCommentDto.from(comment));
   }
 
   @Override
@@ -77,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
 
     commentRepository.save(comment);
 
-    return responseService.getSingleResponse(comment);
+    return responseService.getSingleResponse(ReadCommentDto.from(comment));
   }
 
   private void addCommentNumber(PostEntity post) {

@@ -2,6 +2,7 @@ package com.peppone.dam.board.service.impliments;
 
 import com.peppone.dam.board.domain.BoardEntity;
 import com.peppone.dam.board.domain.BoardType;
+import com.peppone.dam.board.dto.BoardListDto;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.board.dto.BoardMakingDto;
 import com.peppone.dam.exception.ErrorCode;
@@ -48,6 +49,6 @@ public class BoardServiceImpl implements BoardService {
 
     boardRepository.save(makeBoard);
 
-    return responseService.getSingleResponse(makeBoard);
+    return responseService.getSingleResponse(BoardListDto.from(makeBoard));
   }
 }

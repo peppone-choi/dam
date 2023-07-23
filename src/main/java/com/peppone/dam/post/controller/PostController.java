@@ -7,6 +7,7 @@ import com.peppone.dam.post.service.PostService;
 import com.peppone.dam.token.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,11 @@ public class PostController {
   public CommonResponse readPost(@PathVariable long id) {
     CommonResponse readPostResponse = postService.readPost(id);
     return readPostResponse;
+  }
+  @GetMapping("/api/board/{id}/comment")
+  public CommonResponse readPostComment(@PathVariable long id, Pageable pageable) {
+    CommonResponse readPostCommentResponse = postService.readPostComment(id, pageable);
+    return readPostCommentResponse;
   }
 
 }

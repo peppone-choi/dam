@@ -2,6 +2,7 @@ package com.peppone.dam.response;
 
 import com.peppone.dam.exception.ErrorCode;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

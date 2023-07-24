@@ -27,7 +27,6 @@ public class BoardController {
   private final BoardService boardService;
   private final TokenService tokenService;
 
-
   @PostMapping("/api/board")
   public CommonResponse makeBoard(@Valid @RequestBody BoardMakingDto boardMakingDto,
       @RequestHeader("Authorization") String token) {
@@ -47,8 +46,8 @@ public class BoardController {
     return boardService.getBoardList();
   }
 
-
   @GetMapping("/api/board/{type}")
+
   public CommonResponse boardListByType(@PathVariable String type) {
 
     BoardType boardType = BoardType.BOARD_TYPE_MINI;

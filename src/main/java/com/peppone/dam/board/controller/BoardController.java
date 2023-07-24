@@ -3,11 +3,13 @@ package com.peppone.dam.board.controller;
 import com.peppone.dam.board.domain.BoardType;
 import com.peppone.dam.board.dto.BoardMakingDto;
 import com.peppone.dam.board.service.BoardService;
+import com.peppone.dam.post.domain.OrderType;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.token.TokenService;
 import com.peppone.dam.user.domain.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,7 @@ public class BoardController {
   private final TokenService tokenService;
 
 
-  @PostMapping("/api/board/make")
+  @PostMapping("/api/board")
   public CommonResponse makeBoard(@Valid @RequestBody BoardMakingDto boardMakingDto,
       @RequestHeader("Authorization") String token) {
     UserEntity user = tokenService.tokenValidation(token);
@@ -51,6 +53,26 @@ public class BoardController {
     }
 
     return boardService.getBoardListByType(boardType);
+  }
+
+  @GetMapping("/api/board/{id}/list")
+  public CommonResponse getBoardPostList(@PathVariable String id,
+      @RequestParam(name = "page", defaultValue = "0") long page,
+      @RequestParam(name = "size", defaultValue = "10") long size,
+      @RequestParam(name = "order", defaultValue = "id") OrderType order,
+      @RequestParam(name= "order_direction", defaultValue = "true") boolean orderDirection,
+      Pageable pageable) {
+    return boardService.getBoardPostList(id, page, size, order, orderDirection, pageable);
+  }
+
+  @GetMapping("/api/board/{id}/list/pinned")
+  public CommonResponse getBoardPinnedPostList(@PathVariable String id) {
+    return boardService.getBoardPinnedPostList(id);
+  }
+
+  @GetMapping("/api/board/{id}/list/notice")
+  public CommonResponse getBoardNoticePostList(@PathVariable String id) {
+    return boardService.getBoardNoticePostList(id);
   }
 
 }

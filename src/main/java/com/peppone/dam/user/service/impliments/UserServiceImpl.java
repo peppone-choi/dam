@@ -5,6 +5,7 @@ import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
 import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 
+import com.peppone.dam.exception.CustomException;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.token.TokenService;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserService {
   public CommonResponse signIn(SignInDto signInDto) {
 
     if (userRepository.countByUserEmailAndRemovedDateIsNull(signInDto.getUserEmail()) > 0) {
-      return responseService.ErrorResponse(EMAIL_DUPLICATED);
+      throw new CustomException(EMAIL_DUPLICATED);
     }
 
     UserEntity user = UserEntity.builder()
@@ -65,11 +66,11 @@ public class UserServiceImpl implements UserService {
     boolean isBlocked = false;
 
     if (loginUser == null || loginUser.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND);
+      throw new CustomException(USER_NOT_FOUND);
     }
 
     if (!checkPassword(login.getPassword(), loginUser.getPassword())) {
-      return responseService.ErrorResponse(PASSWORD_NOT_MATCH);
+      throw new CustomException(PASSWORD_NOT_MATCH);
     }
 
     if (loginUser.getBlockedDate() != null) {
@@ -78,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     if (isBlocked) {
-      return responseService.ErrorResponse(BLOCKED_USER);
+      throw new CustomException(BLOCKED_USER);
     }
 
     String token = tokenService.tokenIssuer(loginUser);
@@ -92,7 +93,7 @@ public class UserServiceImpl implements UserService {
         tokenService.tokenValidation(token).getUserEmail());
 
     if (user == null || user.getRemovedDate() != null) {
-      return responseService.ErrorResponse(USER_NOT_FOUND);
+      throw new CustomException(USER_NOT_FOUND);
     }
 
     user.setRemovedDate(LocalDateTime.now());

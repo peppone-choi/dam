@@ -25,44 +25,24 @@ public class PostController {
   private final PostService postService;
 
 
-  @PostMapping(value = "/api/board/create")
+  @PostMapping(value = "/api/post")
   public CommonResponse createPost(@RequestHeader(name = "Authorization") String token,
       @Valid @RequestBody CreatePostDto createPostDto) {
     UserEntity user = tokenService.tokenValidation(token);
     return postService.createPost(user, createPostDto);
   }
 
-  @GetMapping("/api/board/read/{id}")
+  @GetMapping("/api/post/{id}")
   public CommonResponse readPost(@PathVariable long id) {
     return postService.readPost(id);
   }
 
-  @GetMapping("/api/board/read/{id}/comment")
+  @GetMapping("/api/post/{id}/comment")
   public CommonResponse readPostComment(@PathVariable long id,
       @RequestParam(name = "page", defaultValue = "0") long page,
       @RequestParam(name = "size", defaultValue = "5") long size,
       Pageable pageable) {
     return postService.readPostComment(id, page, size, pageable);
-  }
-
-  @GetMapping("/api/board/{id}/list")
-  public CommonResponse getBoardPostList(@PathVariable String id,
-      @RequestParam(name = "page", defaultValue = "0") long page,
-      @RequestParam(name = "size", defaultValue = "10") long size,
-      @RequestParam(name = "order", defaultValue = "id") OrderType order,
-      @RequestParam(name= "order_direction", defaultValue = "true") boolean orderDirection,
-      Pageable pageable) {
-    return postService.getBoardPostList(id, page, size, order, orderDirection, pageable);
-  }
-
-  @GetMapping("/api/board/{id}/list/pinned")
-  public CommonResponse getBoardPinnedPostList(@PathVariable String id) {
-    return postService.getBoardPinnedPostList(id);
-  }
-
-  @GetMapping("/api/board/{id}/list/notice")
-  public CommonResponse getBoardNoticePostList(@PathVariable String id) {
-    return postService.getBoardNoticePostList(id);
   }
 
 }

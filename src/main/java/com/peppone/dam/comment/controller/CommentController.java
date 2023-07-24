@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ public class CommentController {
   private final TokenService tokenService;
   private final CommentService commentService;
 
-  @PostMapping("/api/board/comment")
+  @PostMapping("/api/comment")
   CommonResponse createComment(@RequestHeader("Authorization") String token,
       @RequestBody @Valid CreateCommentDto createCommentDto) {
     UserEntity user = tokenService.tokenValidation(token);
@@ -28,7 +29,7 @@ public class CommentController {
     return createCommentResponse;
   }
 
-  @PostMapping("/api/board/comment/{id}")
+  @PutMapping("/api/comment/{id}")
   CommonResponse createCommentonComment(@RequestHeader("Authorization") String token,
       @RequestBody @Valid CreateCommentDto createCommentDto,
       @PathVariable long id) {

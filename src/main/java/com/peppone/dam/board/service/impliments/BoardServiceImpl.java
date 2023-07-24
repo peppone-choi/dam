@@ -3,6 +3,7 @@ package com.peppone.dam.board.service.impliments;
 import static com.peppone.dam.exception.ErrorCode.BOARD_NAME_DUPLICATED;
 import static com.peppone.dam.exception.ErrorCode.BOARD_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.BOARD_URL_DUPLICATED;
+import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 import static com.peppone.dam.post.domain.PostType.POST_TYPE_GENERAL;
 import static com.peppone.dam.post.domain.PostType.POST_TYPE_NOTICE;
@@ -10,6 +11,7 @@ import static com.peppone.dam.post.domain.PostType.POST_TYPE_PINNED;
 
 import com.peppone.dam.board.domain.BoardEntity;
 import com.peppone.dam.board.domain.BoardType;
+import com.peppone.dam.board.dto.BoardEditDto;
 import com.peppone.dam.board.dto.BoardListDto;
 import com.peppone.dam.board.dto.BoardMakingDto;
 import com.peppone.dam.board.repository.BoardRepository;
@@ -22,6 +24,7 @@ import com.peppone.dam.post.repository.PostRepository;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.user.domain.UserEntity;
+import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -39,6 +43,7 @@ public class BoardServiceImpl implements BoardService {
   private final ResponseService responseService;
   private final PostRepository postRepository;
 
+  @Transactional
   @Override
   public CommonResponse makeBoard(BoardMakingDto boardMakingDto, UserEntity user) {
     boolean boardExistByName = boardRepository.existsByName(boardMakingDto.getName());
@@ -134,6 +139,39 @@ public class BoardServiceImpl implements BoardService {
         Sort.by("id").descending()), POST_TYPE_NOTICE);
 
     return responseService.getListResponse(posts);
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse editBoard(BoardEditDto boardEditDto, UserEntity user) {
+
+    BoardEntity board = boardRepository.findById(boardEditDto.getId()).orElseThrow();
+
+    if (user == null) {
+      throw new CustomException(USER_NOT_FOUND);
+    }
+
+    if (!user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    if (StringUtils.isNotBlank(boardEditDto.getName())) {
+      board.setName(boardEditDto.getName());
+    }
+
+    if (StringUtils.isNotBlank(boardEditDto.getUrl())) {
+      board.setUrl(boardEditDto.getUrl());
+    }
+
+    if (StringUtils.isNotBlank(boardEditDto.getBoardType().name())) {
+      board.setBoardType(boardEditDto.getBoardType());
+    }
+
+    boardRepository.save(board);
+
+    BoardListDto response = BoardListDto.from(board);
+
+    return responseService.getSingleResponse(response);
   }
 
   private List<ReadPostDto> getPostByType(BoardEntity board, PageRequest pageRequest,

@@ -29,11 +29,8 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user) {
 
-    if (!postRepository.existsById(createCommentDto.getPostId())) {
-      throw new CustomException(POST_NOT_FOUND);
-    }
-
-    PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();
+    PostEntity post = postRepository.findById(createCommentDto.getPostId())
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
     addCommentNumber(post);
 
@@ -54,15 +51,13 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user,
       long id) {
-    if (!postRepository.existsById(createCommentDto.getPostId())) {
-      throw new CustomException(POST_NOT_FOUND);
-    }
 
     if (!commentRepository.existsById(id)) {
       throw new CustomException(COMMENT_NOT_FOUND);
     }
 
-    PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();
+    PostEntity post = postRepository.findById(createCommentDto.getPostId())
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
     addCommentNumber(post);
 

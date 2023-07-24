@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,25 +23,26 @@ public class UserController {
 
   @PostMapping("/api/user")
   public CommonResponse signIn(@RequestBody @Valid SignInDto signIn) {
-    CommonResponse signInResponse = userService.signIn(signIn);
-    return signInResponse;
+    return userService.signIn(signIn);
   }
 
   @PostMapping("/api/admin")
   public CommonResponse signInAdmin(@RequestBody @Valid SignInDto signIn) {
-    CommonResponse signInResponse = userService.signInAdmin(signIn);
-    return signInResponse;
+    return userService.signInAdmin(signIn);
+  }
+
+  @PostMapping("/api/admin/{id}")
+  public CommonResponse promoteAdmin(@PathVariable long id, @RequestHeader(name = "Authorization") String token){
+    return userService.promoteAdmin(id);
   }
 
   @DeleteMapping("/api/user")
   public CommonResponse signOut(@RequestHeader(name = "Authorization") String token) {
-    CommonResponse signOutResponse = userService.signOut(token);
-    return signOutResponse;
+    return userService.signOut(token);
   }
 
   @GetMapping("/api/auth")
   public CommonResponse logIn(@RequestBody @Valid LoginDto login) {
-    CommonResponse loginResponse = userService.logIn(login);
-    return loginResponse;
+    return userService.logIn(login);
   }
 }

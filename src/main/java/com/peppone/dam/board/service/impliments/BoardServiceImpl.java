@@ -145,7 +145,8 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public CommonResponse editBoard(BoardEditDto boardEditDto, UserEntity user) {
 
-    BoardEntity board = boardRepository.findById(boardEditDto.getId()).orElseThrow();
+    BoardEntity board = boardRepository.findById(boardEditDto.getId())
+        .orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
 
     if (user == null) {
       throw new CustomException(USER_NOT_FOUND);

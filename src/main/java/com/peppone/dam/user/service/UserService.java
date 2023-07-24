@@ -13,4 +13,6 @@ public interface UserService {
   CommonResponse signOut(String token);
 
   CommonResponse signInAdmin(SignInDto signIn);
+
+  CommonResponse promoteAdmin(long id);
 }

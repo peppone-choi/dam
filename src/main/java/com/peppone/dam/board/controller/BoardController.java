@@ -47,7 +47,6 @@ public class BoardController {
   }
 
   @GetMapping("/api/board/{type}")
-
   public CommonResponse boardListByType(@PathVariable String type) {
 
     BoardType boardType = BoardType.BOARD_TYPE_MINI;

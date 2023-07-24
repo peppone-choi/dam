@@ -47,11 +47,8 @@ public class PostServiceImpl implements PostService {
       throw new CustomException(USER_NOT_FOUND);
     }
 
-    if (!boardRepository.existsById(createPostDto.getBoardId())) {
-      throw new CustomException(BOARD_NOT_FOUND);
-    }
-
-    BoardEntity postBoard = boardRepository.findById(createPostDto.getBoardId()).orElseThrow();
+    BoardEntity postBoard = boardRepository.findById(createPostDto.getBoardId())
+        .orElseThrow(() -> new CustomException(BOARD_NOT_FOUND));
 
     PostEntity post = PostEntity.builder()
         .userId(user)
@@ -74,30 +71,26 @@ public class PostServiceImpl implements PostService {
   @Override
   public CommonResponse readPost(long id) {
 
-    if (!postRepository.existsById(id)) {
-      throw new CustomException(POST_NOT_FOUND);
-    }
-
-    if (!postRepository.findById(id).orElseThrow().isAccess()) {
+    if (!postRepository.findById(id).orElseThrow(() -> new CustomException(POST_NOT_FOUND))
+        .isAccess()) {
       throw new CustomException(POST_ACCESS_IS_DENIED);
     }
 
-    PostEntity post = postRepository.findById(id).orElseThrow();
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
     return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
   @Override
   public CommonResponse readPostComment(long id, long page, long size, Pageable pageable) {
-    if (!postRepository.existsById(id)) {
-      throw new CustomException(POST_NOT_FOUND);
-    }
 
     if (!postRepository.findById(id).orElseThrow().isAccess()) {
       throw new CustomException(POST_ACCESS_IS_DENIED);
     }
 
-    PostEntity post = postRepository.findById(id).orElseThrow();
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
     PageRequest pageRequest = PageRequest.of((int) page, (int) size,
         Sort.by("createdDate").ascending());

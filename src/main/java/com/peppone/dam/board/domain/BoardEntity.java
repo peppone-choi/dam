@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -38,7 +39,7 @@ public class BoardEntity {
   @Enumerated(EnumType.STRING)
   private BoardType boardType;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "admin_id")
   private UserEntity adminId;
 

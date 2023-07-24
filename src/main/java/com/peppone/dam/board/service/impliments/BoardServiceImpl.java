@@ -10,6 +10,7 @@ import com.peppone.dam.exception.ErrorCode;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.user.domain.UserEntity;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,20 @@ public class BoardServiceImpl implements BoardService {
     boardRepository.save(makeBoard);
 
     return responseService.getSingleResponse(BoardListDto.from(makeBoard));
+  }
+
+  @Override
+  public CommonResponse getBoardList() {
+    List<BoardListDto> list = boardRepository.findAll().stream().map(BoardListDto::from).toList();
+    return responseService.getListResponse(list);
+  }
+
+  @Override
+  public CommonResponse getBoardListByType(BoardType boardType) {
+
+    List<BoardListDto> list = boardRepository.findAllByBoardType(boardType).stream()
+        .map(BoardListDto::from).toList();
+
+    return responseService.getListResponse(list);
   }
 }

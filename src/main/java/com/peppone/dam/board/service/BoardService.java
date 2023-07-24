@@ -1,6 +1,7 @@
 package com.peppone.dam.board.service;
 
 import com.peppone.dam.board.domain.BoardType;
+import com.peppone.dam.board.dto.BoardEditDto;
 import com.peppone.dam.board.dto.BoardMakingDto;
 import com.peppone.dam.post.domain.OrderType;
 import com.peppone.dam.response.CommonResponse;
@@ -22,4 +23,5 @@ public interface BoardService {
 
   CommonResponse getBoardNoticePostList(String id);
 
+  CommonResponse editBoard(BoardEditDto boardEditDto, UserEntity user);
 }

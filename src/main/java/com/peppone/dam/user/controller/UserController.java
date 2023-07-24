@@ -26,12 +26,17 @@ public class UserController {
     return signInResponse;
   }
 
+  @PostMapping("/api/admin")
+  public CommonResponse signInAdmin(@RequestBody @Valid SignInDto signIn) {
+    CommonResponse signInResponse = userService.signInAdmin(signIn);
+    return signInResponse;
+  }
+
   @DeleteMapping("/api/user")
   public CommonResponse signOut(@RequestHeader(name = "Authorization") String token) {
     CommonResponse signOutResponse = userService.signOut(token);
     return signOutResponse;
   }
-
 
   @GetMapping("/api/auth")
   public CommonResponse logIn(@RequestBody @Valid LoginDto login) {

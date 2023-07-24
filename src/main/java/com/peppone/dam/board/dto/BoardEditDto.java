@@ -1,5 +1,6 @@
 package com.peppone.dam.board.dto;
 
+import com.peppone.dam.board.domain.BoardType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,11 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoardMakingDto {
+public class BoardEditDto {
 
-  @NotBlank(message = "게시판 이름은 필수사항입니다.")
+  @NotBlank(message = "게시판 번호는 필수사항입니다.")
+  private long id;
+
   private String name;
 
-  @NotBlank(message = "게시판 id는 필수사항입니다.")
   private String url;
+
+  private BoardType boardType;
 }

@@ -47,7 +47,6 @@ public class BoardController {
     return boardService.getBoardList();
   }
 
-
   @GetMapping("/api/board/{type}")
   public CommonResponse boardListByType(@PathVariable String type) {
 

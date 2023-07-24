@@ -8,13 +8,13 @@ import com.peppone.dam.comment.dto.CreateCommentDto;
 import com.peppone.dam.comment.dto.ReadCommentDto;
 import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.comment.service.CommentService;
+import com.peppone.dam.exception.CustomException;
 import com.peppone.dam.post.domain.PostEntity;
 import com.peppone.dam.post.repository.PostRepository;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.user.domain.UserEntity;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user) {
 
     if (!postRepository.existsById(createCommentDto.getPostId())) {
-      responseService.ErrorResponse(POST_NOT_FOUND);
+      throw new CustomException(POST_NOT_FOUND);
     }
 
     PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();
@@ -55,11 +55,11 @@ public class CommentServiceImpl implements CommentService {
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user,
       long id) {
     if (!postRepository.existsById(createCommentDto.getPostId())) {
-      responseService.ErrorResponse(POST_NOT_FOUND);
+      throw new CustomException(POST_NOT_FOUND);
     }
 
     if (!commentRepository.existsById(id)) {
-      responseService.ErrorResponse(COMMENT_NOT_FOUND);
+      throw new CustomException(COMMENT_NOT_FOUND);
     }
 
     PostEntity post = postRepository.findById(createCommentDto.getPostId()).orElseThrow();

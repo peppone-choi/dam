@@ -14,10 +14,4 @@ public interface PostService {
 
   CommonResponse readPostComment(long id, long page, long size, Pageable pageable);
 
-  CommonResponse getBoardPostList(String id, long page, long size, OrderType order,
-      boolean orderDirection, Pageable pageable);
-
-  CommonResponse getBoardPinnedPostList(String id);
-
-  CommonResponse getBoardNoticePostList(String id);
 }

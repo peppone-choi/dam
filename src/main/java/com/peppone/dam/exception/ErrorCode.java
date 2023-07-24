@@ -53,9 +53,15 @@ public enum ErrorCode {
   COMMENT_NOT_FOUND(10030, "해당 댓글이 존재하지 않습니다."),
 
   /*
-   * 해당 댓글이 존재하지 않음
+   * 접근 제한 된 게시물임
    */
-  POST_ACCESS_IS_DENIED(10040, "접근 제한된 게시물입니다.");
+  POST_ACCESS_IS_DENIED(10040, "접근 제한된 게시물입니다."),
+
+  /*
+   * 권한이 없음
+   */
+  NOT_ALLOWED(10050, "권한이 없습니다.");
+
 
   private final int errorCode;
   private final String message;

@@ -16,6 +16,7 @@ import com.peppone.dam.user.dto.UserInfoDto;
 import com.peppone.dam.user.repository.UserRepository;
 import com.peppone.dam.user.service.UserService;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
   private final ResponseService responseService;
   private final TokenService tokenService;
 
+  @Transactional
   @Override
   public CommonResponse signIn(SignInDto signInDto) {
 
@@ -52,6 +54,30 @@ public class UserServiceImpl implements UserService {
 
     return responseService.getSingleResponse(UserInfoDto.from(user));
   }
+
+  @Transactional
+  @Override
+  public CommonResponse signInAdmin(SignInDto signIn) {
+
+    if (userRepository.countByUserEmailAndRemovedDateIsNull(signIn.getUserEmail()) > 0) {
+      throw new CustomException(EMAIL_DUPLICATED);
+    }
+
+    String[] adminRole = {"ROLE_ADMIN", "ROLE_USER"};
+
+    UserEntity user = UserEntity.builder()
+        .userEmail(signIn.getUserEmail())
+        .password(passwordEncoder.encode(signIn.getPassword()))
+        .nickname(signIn.getNickname())
+        .createdDate(LocalDateTime.now())
+        .role(Arrays.stream(adminRole).toList())
+        .build();
+
+    userRepository.save(user);
+
+    return responseService.getSingleResponse(UserInfoDto.from(user));
+  }
+
 
   public boolean checkPassword(String encoded, String decoded) {
     if (passwordEncoder.matches(encoded, decoded)) {
@@ -102,4 +128,17 @@ public class UserServiceImpl implements UserService {
 
     return responseService.getSingleResponse(user.getUserEmail());
   }
+
+
+  @Transactional
+  @Override
+  public CommonResponse promoteAdmin(long id) {
+    UserEntity user = userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+    if (user == null || user.getRemovedDate() != null) {
+      throw new CustomException(USER_NOT_FOUND);
+    }
+    return null;
+  }
+
 }

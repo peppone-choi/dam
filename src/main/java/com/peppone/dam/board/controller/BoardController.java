@@ -27,7 +27,6 @@ public class BoardController {
   private final BoardService boardService;
   private final TokenService tokenService;
 
-
   @PostMapping("/api/board")
   public CommonResponse makeBoard(@Valid @RequestBody BoardMakingDto boardMakingDto,
       @RequestHeader("Authorization") String token) {

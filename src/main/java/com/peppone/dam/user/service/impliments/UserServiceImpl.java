@@ -16,7 +16,10 @@ import com.peppone.dam.user.dto.UserInfoDto;
 import com.peppone.dam.user.repository.UserRepository;
 import com.peppone.dam.user.service.UserService;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +49,28 @@ public class UserServiceImpl implements UserService {
         .nickname(signInDto.getNickname())
         .createdDate(LocalDateTime.now())
         .role(Collections.singletonList("ROLE_USER"))
+        .build();
+
+    userRepository.save(user);
+
+    return responseService.getSingleResponse(UserInfoDto.from(user));
+  }
+
+  @Override
+  public CommonResponse signInAdmin(SignInDto signIn) {
+
+    if (userRepository.countByUserEmailAndRemovedDateIsNull(signIn.getUserEmail()) > 0) {
+      throw new CustomException(EMAIL_DUPLICATED);
+    }
+
+    String[] adminRole = {"ROLE_ADMIN", "ROLE_USER"};
+
+    UserEntity user = UserEntity.builder()
+        .userEmail(signIn.getUserEmail())
+        .password(passwordEncoder.encode(signIn.getPassword()))
+        .nickname(signIn.getNickname())
+        .createdDate(LocalDateTime.now())
+        .role(Arrays.stream(adminRole).toList())
         .build();
 
     userRepository.save(user);
@@ -102,4 +127,6 @@ public class UserServiceImpl implements UserService {
 
     return responseService.getSingleResponse(user.getUserEmail());
   }
+
+
 }

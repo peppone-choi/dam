@@ -11,4 +11,6 @@ public interface UserService {
   CommonResponse logIn(LoginDto login);
 
   CommonResponse signOut(String token);
+
+  CommonResponse signInAdmin(SignInDto signIn);
 }

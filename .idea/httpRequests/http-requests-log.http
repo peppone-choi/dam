@@ -1,3 +1,373 @@
+POST http://localhost:8080/api/like/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 39
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "postId": 1,
+  "likeType": "LIKE"
+}
+
+<> 2023-07-25T134614.500.json
+
+###
+
+POST http://localhost:8080/api/like/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 39
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "postId": 1,
+  "likeType": "LIKE"
+}
+
+<> 2023-07-25T134608.200.json
+
+###
+
+POST http://localhost:8080/api/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 93
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "boardId": 1,
+  "subject": "asd",
+  "content": "asd",
+  "postType": "POST_TYPE_GENERAL"
+}
+
+<> 2023-07-25T134605.200.json
+
+###
+
+PATCH http://localhost:8080/api/board/
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 83
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id" : 1,
+  "name" : "jyp",
+  "url" : "o",
+  "boardType" : "BOARD_TYPE_MAJOR"
+}
+
+<> 2023-07-25T134602.200.json
+
+###
+
+POST http://localhost:8080/api/board
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 36
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "asd",
+  "url" : "def"
+}
+
+<> 2023-07-25T134600.200.json
+
+###
+
+GET http://localhost:8080/api/auth
+Content-Type: application/json
+Content-Length: 64
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail" : "loca90@naver.com",
+  "password": "52255225"
+}
+
+<> 2023-07-25T134558.200.json
+
+###
+
+POST http://localhost:8080/api/admin
+Content-Type: application/json
+Content-Length: 90
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail": "loca90@naver.com",
+  "password": "52255225",
+  "nickname": "빼뽀네"
+}
+
+<> 2023-07-25T134556.200.json
+
+###
+
+POST http://localhost:8080/api/like/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 39
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "postId": 1,
+  "likeType": "LIKE"
+}
+
+<> 2023-07-25T134514.200.json
+
+###
+
+POST http://localhost:8080/api/like/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 40
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "postId": "",
+  "likeType": "LIKE"
+}
+
+<> 2023-07-25T134456.200.json
+
+###
+
+POST http://localhost:8080/api/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 93
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "boardId": 1,
+  "subject": "asd",
+  "content": "asd",
+  "postType": "POST_TYPE_GENERAL"
+}
+
+<> 2023-07-25T134449.200.json
+
+###
+
+PATCH http://localhost:8080/api/board/
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 83
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "id" : 1,
+  "name" : "jyp",
+  "url" : "o",
+  "boardType" : "BOARD_TYPE_MAJOR"
+}
+
+<> 2023-07-25T134443.200.json
+
+###
+
+POST http://localhost:8080/api/board
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 36
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "asd",
+  "url" : "def"
+}
+
+<> 2023-07-25T134438.200.json
+
+###
+
+GET http://localhost:8080/api/auth
+Content-Type: application/json
+Content-Length: 64
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail" : "loca90@naver.com",
+  "password": "52255225"
+}
+
+<> 2023-07-25T134435.200.json
+
+###
+
+POST http://localhost:8080/api/admin
+Content-Type: application/json
+Content-Length: 90
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail": "loca90@naver.com",
+  "password": "52255225",
+  "nickname": "빼뽀네"
+}
+
+<> 2023-07-25T134431.200.json
+
+###
+
+POST http://localhost:8080/api/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 93
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "boardId": 1,
+  "subject": "asd",
+  "content": "asd",
+  "postType": "POST_TYPE_GENERAL"
+}
+
+<> 2023-07-25T134051.200.json
+
+###
+
+POST http://localhost:8080/api/post
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 97
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "boardId": 1,
+  "subject": "asd",
+  "content": "asd",
+  "postType": "POST_TYPE_GENERAL"
+  ;
+}
+
+<> 2023-07-25T134047.200.json
+
+###
+
+POST http://localhost:8080/api/board
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAyNjcwODIsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.DIi6fBKidyNWvwEcriw6g0mIJ2eglaim41Jsx7idSwb3OOhM_IyR1RSx7CwbUPI6wsSOcs6EbR12RLY6uonwNg
+Content-Length: 36
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "asd",
+  "url" : "def"
+}
+
+<> 2023-07-25T133831.200.json
+
+###
+
+GET http://localhost:8080/api/auth
+Content-Type: application/json
+Content-Length: 64
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail" : "loca90@naver.com",
+  "password": "52255225"
+}
+
+<> 2023-07-25T133802.200.json
+
+###
+
+POST http://localhost:8080/api/board
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxOTQ3MTMsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.wIDt2wzynYwfkSZ88omdzjW_p0bvoqssx2cvqrXFbz545zPmpjmZM5eo-_jnYQffuQ_0kELzXYXMrb53HAGltQ
+Content-Length: 36
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "name": "asd",
+  "url" : "def"
+}
+
+<> 2023-07-25T133757.200.json
+
+###
+
+POST http://localhost:8080/api/admin
+Content-Type: application/json
+Content-Length: 90
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.7)
+Cookie: JSESSIONID=29790FBB7BA9093F34D5F6EAEAEA8148
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+{
+  "userEmail": "loca90@naver.com",
+  "password": "52255225",
+  "nickname": "빼뽀네"
+}
+
+<> 2023-07-25T133752.200.json
+
+###
+
 PATCH http://localhost:8080/api/board/
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAxOTQ3MTMsInVzZXJfaWQiOjEsInN1YiI6ImxvY2E5MEBuYXZlci5jb20iLCJpc3MiOiJsb2NhOTBAbmF2ZXIuY29tIn0.wIDt2wzynYwfkSZ88omdzjW_p0bvoqssx2cvqrXFbz545zPmpjmZM5eo-_jnYQffuQ_0kELzXYXMrb53HAGltQ

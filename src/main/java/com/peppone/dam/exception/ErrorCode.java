@@ -60,8 +60,17 @@ public enum ErrorCode {
   /*
    * 권한이 없음
    */
-  NOT_ALLOWED(10050, "권한이 없습니다.");
+  NOT_ALLOWED(10050, "권한이 없습니다."),
 
+  /*
+   * 이미 좋아요나 싫어요를 누름
+   */
+  LIKED_POST(10060, "이미 추천 / 비추천을 누른 게시물입니다."),
+
+  /*
+   * 추천 / 비추천을 찾을 수 없음.
+   */
+  LIKE_NOT_FOUND(10061, "추천 / 비추천을 찾을 수 없습니다.");
 
   private final int errorCode;
   private final String message;

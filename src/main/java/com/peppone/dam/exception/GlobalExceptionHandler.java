@@ -12,12 +12,12 @@ public class GlobalExceptionHandler {
 
   private final ResponseService responseService;
 
-  @ExceptionHandler({CustomException.class})
+  @ExceptionHandler(CustomException.class)
   protected ErrorResponse handleCustomException(CustomException e) {
     return responseService.ErrorResponse(e);
   }
 
-  @ExceptionHandler({Exception.class})
+  @ExceptionHandler(Exception.class)
   protected ErrorResponse handleServerException(Exception e) {
     return responseService.ErrorResponse(e);
   }

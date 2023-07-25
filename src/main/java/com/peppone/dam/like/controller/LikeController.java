@@ -1,5 +1,7 @@
 package com.peppone.dam.like.controller;
 
+import com.peppone.dam.like.dto.CommentCancelLikeDto;
+import com.peppone.dam.like.dto.CommentLikeDto;
 import com.peppone.dam.like.dto.PostCancelLikeDto;
 import com.peppone.dam.like.dto.PostLikeDto;
 import com.peppone.dam.like.service.LikeService;
@@ -21,14 +23,30 @@ public class LikeController {
   private final TokenService tokenService;
 
   @PostMapping("/api/like/post")
-  private CommonResponse postLike(@RequestHeader(name = "Authorization") String token, @RequestBody PostLikeDto postLikeDto) {
+  private CommonResponse postLike(@RequestHeader(name = "Authorization") String token,
+      @RequestBody PostLikeDto postLikeDto) {
     UserEntity user = tokenService.tokenValidation(token);
     return likeService.postLike(user, postLikeDto);
   }
 
   @DeleteMapping("/api/like/post")
-  private CommonResponse cancelPostLike(@RequestHeader(name = "Authorization") String token, @RequestBody PostCancelLikeDto postCancelLikeDto){
+  private CommonResponse cancelPostLike(@RequestHeader(name = "Authorization") String token,
+      @RequestBody PostCancelLikeDto postCancelLikeDto) {
     UserEntity user = tokenService.tokenValidation(token);
     return likeService.cancelPostLike(user, postCancelLikeDto);
+  }
+
+  @PostMapping("/api/like/post")
+  private CommonResponse commentLike(@RequestHeader(name = "Authorization") String token,
+      @RequestBody CommentLikeDto commentLikeDto) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return likeService.commentLike(user, commentLikeDto);
+  }
+
+  @DeleteMapping("/api/like/post")
+  private CommonResponse cancelCommentLike(@RequestHeader(name = "Authorization") String token,
+      @RequestBody CommentCancelLikeDto commentCancelLikeDto) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return likeService.cancelCommentLike(user, commentCancelLikeDto);
   }
 }

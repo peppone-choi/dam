@@ -1,14 +1,21 @@
 package com.peppone.dam.like.service.impliments;
 
+import static com.peppone.dam.exception.ErrorCode.COMMENT_NOT_FOUND;
+import static com.peppone.dam.exception.ErrorCode.LIKED_COMMENT;
 import static com.peppone.dam.exception.ErrorCode.LIKED_POST;
 import static com.peppone.dam.exception.ErrorCode.LIKE_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 
+import com.peppone.dam.comment.domain.CommentEntity;
+import com.peppone.dam.comment.dto.ReadCommentDto;
+import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.exception.CustomException;
 import com.peppone.dam.exception.ErrorCode;
 import com.peppone.dam.like.domain.LikeEntity;
 import com.peppone.dam.like.domain.LikeType;
+import com.peppone.dam.like.dto.CommentCancelLikeDto;
+import com.peppone.dam.like.dto.CommentLikeDto;
 import com.peppone.dam.like.dto.PostCancelLikeDto;
 import com.peppone.dam.like.dto.PostLikeDto;
 import com.peppone.dam.like.repository.LikeRepository;
@@ -31,6 +38,7 @@ public class LikeServiceImpl implements LikeService {
   private final UserRepository userRepository;
   private final PostRepository postRepository;
   private final LikeRepository likeRepository;
+  private final CommentRepository commentRepository;
   private final ResponseService responseService;
 
 
@@ -50,7 +58,7 @@ public class LikeServiceImpl implements LikeService {
 
     postLiker(post, likeUser, likeDto.getLikeType());
 
-    return responseService.getSingleResponse(likeDto.getPostId() + " Liked!");
+    return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
   @Transactional
@@ -72,6 +80,47 @@ public class LikeServiceImpl implements LikeService {
     return responseService.getSingleResponse(ReadPostDto.from(
         postRepository.findById(postCancelLikeDto.getId())
             .orElseThrow(() -> new CustomException(POST_NOT_FOUND))));
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse commentLike(UserEntity user, CommentLikeDto commentLikeDto) {
+
+    UserEntity likeUser = userRepository.findById(user.getId())
+        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+    CommentEntity comment = commentRepository.findById(commentLikeDto.getCommentId())
+        .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+
+    if (likeRepository.existsByUserIdAndCommentId(likeUser, comment)) {
+      throw new CustomException(LIKED_COMMENT);
+    }
+
+    commentLiker(comment, likeUser, commentLikeDto.getLikeType());
+
+    return responseService.getSingleResponse(ReadCommentDto.from(comment));
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse cancelCommentLike(UserEntity user,
+      CommentCancelLikeDto commentCancelLikeDto) {
+    UserEntity likeUser = userRepository.findById(user.getId())
+        .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+    LikeEntity like = likeRepository.findById(commentCancelLikeDto.getId())
+        .orElseThrow(() -> new CustomException(LIKE_NOT_FOUND));
+
+    if (likeUser.getId() != like.getUserId().getId() && likeUser.getRole().get(0)
+        .equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    postLikeCanceler(like.getId());
+
+    return responseService.getSingleResponse(ReadCommentDto.from(
+        commentRepository.findById(commentCancelLikeDto.getId())
+            .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND))));
   }
 
 
@@ -108,4 +157,40 @@ public class LikeServiceImpl implements LikeService {
     postRepository.save(likedPost);
     likeRepository.delete(like);
   }
+
+
+  private void commentLiker(CommentEntity comment, UserEntity user, LikeType likeType) {
+    if (likeType == LikeType.LIKE) {
+      comment.setLike(comment.getLike() + 1);
+    }
+
+    if (likeType == LikeType.DISLIKE) {
+      comment.setDislike(comment.getDislike() + 1);
+    }
+
+    commentRepository.save(comment);
+    likeRepository.save(LikeEntity.builder()
+        .userId(user)
+        .commentId(comment)
+        .likeType(likeType)
+        .build());
+  }
+
+  private void commentLikeCanceler(long likeId) {
+
+    LikeEntity like = likeRepository.findById(likeId)
+        .orElseThrow(() -> new CustomException(LIKE_NOT_FOUND));
+    CommentEntity likedComment = commentRepository.findById(like.getCommentId().getId())
+        .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+    if (like.getLikeType() == LikeType.LIKE) {
+      likedComment.setLike(likedComment.getLike() - 1);
+    }
+
+    if (like.getLikeType() == LikeType.DISLIKE) {
+      likedComment.setDislike(likedComment.getDislike() + 1);
+    }
+    commentRepository.save(likedComment);
+    likeRepository.delete(like);
+  }
+
 }

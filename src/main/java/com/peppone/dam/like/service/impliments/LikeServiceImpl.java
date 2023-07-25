@@ -76,7 +76,14 @@ public class LikeServiceImpl implements LikeService {
 
 
   private void postLiker(PostEntity post, UserEntity user, LikeType likeType) {
-    post.setLike(post.getLike() + 1);
+    if (likeType == LikeType.LIKE) {
+      post.setLike(post.getLike() + 1);
+    }
+
+    if (likeType == LikeType.DISLIKE) {
+      post.setDislike(post.getDislike() + 1);
+    }
+
     postRepository.save(post);
     likeRepository.save(LikeEntity.builder()
         .userId(user)
@@ -91,7 +98,13 @@ public class LikeServiceImpl implements LikeService {
         .orElseThrow(() -> new CustomException(LIKE_NOT_FOUND));
     PostEntity likedPost = postRepository.findById(like.getPostId().getId())
         .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
-    likedPost.setLike(likedPost.getLike() - 1);
+    if (like.getLikeType() == LikeType.LIKE) {
+      likedPost.setLike(likedPost.getLike() - 1);
+    }
+
+    if (like.getLikeType() == LikeType.DISLIKE) {
+      likedPost.setDislike(likedPost.getDislike() + 1);
+    }
     postRepository.save(likedPost);
     likeRepository.delete(like);
   }

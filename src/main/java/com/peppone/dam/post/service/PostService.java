@@ -16,4 +16,6 @@ public interface PostService {
   CommonResponse readPostComment(long id, long page, long size, Pageable pageable);
 
   CommonResponse editPost(long id, UserEntity user, EditPostDto editPostDto);
+
+  CommonResponse deletePost(long id, UserEntity user);
 }

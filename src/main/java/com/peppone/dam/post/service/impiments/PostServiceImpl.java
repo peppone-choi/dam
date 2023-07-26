@@ -3,6 +3,7 @@ package com.peppone.dam.post.service.impiments;
 import static com.peppone.dam.exception.ErrorCode.BOARD_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.POST_ACCESS_IS_DENIED;
+import static com.peppone.dam.exception.ErrorCode.POST_IS_DELETED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 
@@ -81,6 +82,11 @@ public class PostServiceImpl implements PostService {
     PostEntity post = postRepository.findById(id)
         .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
+
     return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
@@ -93,6 +99,11 @@ public class PostServiceImpl implements PostService {
 
     PostEntity post = postRepository.findById(id)
         .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
 
     PageRequest pageRequest = PageRequest.of((int) page, (int) size,
         Sort.by("createdDate").ascending());
@@ -110,6 +121,11 @@ public class PostServiceImpl implements PostService {
     PostEntity post = postRepository.findById(id)
         .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
 
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
+
     if (post.getUserId().getId() != user.getId() && user.getRole().get(0).equals("ROLE_ADMIN")) {
       throw new CustomException(NOT_ALLOWED);
     }
@@ -121,6 +137,30 @@ public class PostServiceImpl implements PostService {
 
     return responseService.getSingleResponse(ReadPostDto.from(post));
   }
+
+  @Transactional
+  @Override
+  public CommonResponse deletePost(long id, UserEntity user) {
+
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
+
+    if (post.getUserId().getId() != user.getId() && user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    post.setDeletedTime(LocalDateTime.now());
+
+    postRepository.save(post);
+
+    return responseService.getSingleResponse(id + " 번 게시글 삭제!");
+  }
+
 }
 
 

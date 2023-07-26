@@ -178,7 +178,7 @@ public class BoardServiceImpl implements BoardService {
   private List<ReadPostDto> getPostByType(BoardEntity board, PageRequest pageRequest,
       PostType postType) {
     return postRepository
-        .findAllByBoardIdAndPostTypeAndAccessTrue(board, pageRequest, postType)
+        .findAllByBoardIdAndPostTypeAndAccessTrueAAndDeletedTimeIsEmpty(board, pageRequest, postType)
         .stream().map(ReadPostDto::from).toList();
   }
 }

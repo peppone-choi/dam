@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
-  Page<PostEntity> findAllByBoardIdAndPostTypeAndAccessTrue(BoardEntity id, Pageable pageable, PostType postType);
+  Page<PostEntity> findAllByBoardIdAndPostTypeAndAccessTrueAAndDeletedTimeIsEmpty(BoardEntity id, Pageable pageable, PostType postType);
 }

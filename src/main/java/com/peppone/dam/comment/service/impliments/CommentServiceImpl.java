@@ -5,6 +5,7 @@ import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 
 import com.peppone.dam.comment.domain.CommentEntity;
 import com.peppone.dam.comment.dto.CreateCommentDto;
+import com.peppone.dam.comment.dto.EditCommentDto;
 import com.peppone.dam.comment.dto.ReadCommentDto;
 import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.comment.service.CommentService;
@@ -70,6 +71,18 @@ public class CommentServiceImpl implements CommentService {
         .like(0)
         .dislike(0)
         .build();
+
+    commentRepository.save(comment);
+
+    return responseService.getSingleResponse(ReadCommentDto.from(comment));
+  }
+
+  @Override
+  public CommonResponse editComment(EditCommentDto editCommentDto, UserEntity user, long id) {
+    CommentEntity comment = commentRepository.findById(id)
+        .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+
+    comment.setContent(editCommentDto.getContent());
 
     commentRepository.save(comment);
 

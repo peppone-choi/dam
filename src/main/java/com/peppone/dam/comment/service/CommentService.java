@@ -12,4 +12,6 @@ public interface CommentService {
   CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user, long id);
 
   CommonResponse editComment(EditCommentDto editCommentDto, UserEntity user, long id);
+
+  CommonResponse deleteComment(long id, UserEntity user);
 }

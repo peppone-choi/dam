@@ -8,6 +8,7 @@ import com.peppone.dam.token.TokenService;
 import com.peppone.dam.user.domain.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,6 +44,13 @@ public class CommentController {
       @RequestBody @Valid EditCommentDto editCommentDto) {
     UserEntity user = tokenService.tokenValidation(token);
     return commentService.editComment(editCommentDto, user, id);
+  }
+
+  @DeleteMapping("/api/comment/{id}")
+  CommonResponse deleteComment(@RequestHeader(name = "Authorization") String token,
+      @PathVariable long id) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return commentService.deleteComment(id, user);
   }
 
 }

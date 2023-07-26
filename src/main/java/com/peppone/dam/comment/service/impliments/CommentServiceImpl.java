@@ -18,6 +18,7 @@ import com.peppone.dam.user.domain.UserEntity;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
   private final ResponseService responseService;
   private final PostRepository postRepository;
 
+  @Transactional
   @Override
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user) {
 
@@ -44,11 +46,16 @@ public class CommentServiceImpl implements CommentService {
         .dislike(0)
         .build();
 
+    post.setCommentNumbers(post.getCommentNumbers() + 1);
+
     commentRepository.save(comment);
+
+    postRepository.save(post);
 
     return responseService.getSingleResponse(ReadCommentDto.from(comment));
   }
 
+  @Transactional
   @Override
   public CommonResponse createComment(CreateCommentDto createCommentDto, UserEntity user,
       long id) {
@@ -72,11 +79,16 @@ public class CommentServiceImpl implements CommentService {
         .dislike(0)
         .build();
 
+    post.setCommentNumbers(post.getCommentNumbers() + 1);
+
     commentRepository.save(comment);
+
+    postRepository.save(post);
 
     return responseService.getSingleResponse(ReadCommentDto.from(comment));
   }
 
+  @Transactional
   @Override
   public CommonResponse editComment(EditCommentDto editCommentDto, UserEntity user, long id) {
     CommentEntity comment = commentRepository.findById(id)
@@ -87,6 +99,20 @@ public class CommentServiceImpl implements CommentService {
     commentRepository.save(comment);
 
     return responseService.getSingleResponse(ReadCommentDto.from(comment));
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse deleteComment(long id, UserEntity user) {
+    CommentEntity comment = commentRepository.findById(id)
+        .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+
+
+    comment.setDeleteDate(LocalDateTime.now());
+
+    commentRepository.save(comment);
+
+    return responseService.getSingleResponse(id + "번 게시글 삭제!");
   }
 
   private void addCommentNumber(PostEntity post) {

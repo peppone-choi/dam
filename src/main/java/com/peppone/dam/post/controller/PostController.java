@@ -1,7 +1,7 @@
 package com.peppone.dam.post.controller;
 
-import com.peppone.dam.post.domain.OrderType;
 import com.peppone.dam.post.dto.CreatePostDto;
+import com.peppone.dam.post.dto.EditPostDto;
 import com.peppone.dam.post.service.PostService;
 import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.token.TokenService;
@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +44,14 @@ public class PostController {
       @RequestParam(name = "size", defaultValue = "5") long size,
       Pageable pageable) {
     return postService.readPostComment(id, page, size, pageable);
+  }
+
+  @PatchMapping("/api/post/{id}")
+  public CommonResponse editPost(@PathVariable long id,
+      @RequestHeader(name = "Authorization") String token,
+      @Valid @RequestBody EditPostDto editPostDto) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return postService.editPost(id, user, editPostDto);
   }
 
 }

@@ -1,6 +1,7 @@
 package com.peppone.dam.post.service.impiments;
 
 import static com.peppone.dam.exception.ErrorCode.BOARD_NOT_FOUND;
+import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.POST_ACCESS_IS_DENIED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
@@ -12,6 +13,7 @@ import com.peppone.dam.comment.repository.CommentRepository;
 import com.peppone.dam.exception.CustomException;
 import com.peppone.dam.post.domain.PostEntity;
 import com.peppone.dam.post.dto.CreatePostDto;
+import com.peppone.dam.post.dto.EditPostDto;
 import com.peppone.dam.post.dto.ReadPostDto;
 import com.peppone.dam.post.repository.PostRepository;
 import com.peppone.dam.post.service.PostService;
@@ -100,6 +102,24 @@ public class PostServiceImpl implements PostService {
         .stream().map(ReadCommentDto::from).toList();
 
     return responseService.getListResponse(comments);
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse editPost(long id, UserEntity user, EditPostDto editPostDto) {
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+    if (post.getUserId().getId() != user.getId() && user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    post.setSubject(editPostDto.getSubject());
+    post.setContent(editPostDto.getContent());
+
+    postRepository.save(post);
+
+    return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 }
 

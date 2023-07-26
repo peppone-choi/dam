@@ -1,6 +1,7 @@
 package com.peppone.dam.post.service;
 
 import com.peppone.dam.post.domain.OrderType;
+import com.peppone.dam.post.dto.EditPostDto;
 import com.peppone.dam.user.domain.UserEntity;
 import com.peppone.dam.post.dto.CreatePostDto;
 import com.peppone.dam.response.CommonResponse;
@@ -14,4 +15,5 @@ public interface PostService {
 
   CommonResponse readPostComment(long id, long page, long size, Pageable pageable);
 
+  CommonResponse editPost(long id, UserEntity user, EditPostDto editPostDto);
 }

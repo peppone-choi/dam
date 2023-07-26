@@ -5,6 +5,7 @@ import static com.peppone.dam.exception.ErrorCode.LIKED_COMMENT;
 import static com.peppone.dam.exception.ErrorCode.LIKED_POST;
 import static com.peppone.dam.exception.ErrorCode.LIKE_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
+import static com.peppone.dam.exception.ErrorCode.POST_IS_DELETED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
 
 import com.peppone.dam.comment.domain.CommentEntity;
@@ -51,6 +52,10 @@ public class LikeServiceImpl implements LikeService {
 
     PostEntity post = postRepository.findById(likeDto.getPostId())
         .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
 
     if (likeRepository.existsByUserIdAndPostId(likeUser, post)) {
       throw new CustomException(LIKED_POST);

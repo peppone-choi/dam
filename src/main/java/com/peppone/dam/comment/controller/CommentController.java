@@ -29,7 +29,7 @@ public class CommentController {
     return createCommentResponse;
   }
 
-  @PutMapping("/api/comment/{id}")
+  @PostMapping("/api/comment/{id}")
   CommonResponse createCommentonComment(@RequestHeader("Authorization") String token,
       @RequestBody @Valid CreateCommentDto createCommentDto,
       @PathVariable long id) {
@@ -37,5 +37,7 @@ public class CommentController {
     CommonResponse createCommentResponse = commentService.createComment(createCommentDto, user, id);
     return createCommentResponse;
   }
+
+
 
 }

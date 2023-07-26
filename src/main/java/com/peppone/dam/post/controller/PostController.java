@@ -9,6 +9,7 @@ import com.peppone.dam.user.domain.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,6 +53,13 @@ public class PostController {
       @Valid @RequestBody EditPostDto editPostDto) {
     UserEntity user = tokenService.tokenValidation(token);
     return postService.editPost(id, user, editPostDto);
+  }
+
+  @DeleteMapping("/api/post/{id}")
+  public CommonResponse deletePost(@PathVariable long id,
+      @RequestHeader(name = "Authorization") String token) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return postService.deletePost(id, user);
   }
 
 }

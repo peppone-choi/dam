@@ -116,7 +116,7 @@ public class LikeServiceImpl implements LikeService {
       throw new CustomException(NOT_ALLOWED);
     }
 
-    postLikeCanceler(like.getId());
+    commentLikeCanceler(like.getId());
 
     return responseService.getSingleResponse(ReadCommentDto.from(
         commentRepository.findById(commentCancelLikeDto.getId())

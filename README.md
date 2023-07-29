@@ -76,6 +76,3 @@ Dam: A threaded forum platform
 
 
 ## Trouble Shooting
-
-* DB에 쓸 수 없는 예약어에 대해 확실히 점검하였습니다.
-  - https://jaime-note.tistory.com/372

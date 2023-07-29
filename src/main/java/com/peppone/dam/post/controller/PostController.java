@@ -62,6 +62,18 @@ public class PostController {
     return postService.deletePost(id, user);
   }
 
+  @PatchMapping("/api/post/{id}/access/allow")
+  public CommonResponse postAllowAccess(@PathVariable long id,
+      @RequestHeader(name = "Authorization") String token) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return postService.postAllowAccess(id, user);
+  }
 
+  @PatchMapping("/api/post/{id}/access/deny")
+  public CommonResponse postDenyAccess(@PathVariable long id,
+      @RequestHeader(name = "Authorization") String token) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return postService.postDenyAccess(id, user);
+  }
 
 }

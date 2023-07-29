@@ -2,6 +2,7 @@ package com.peppone.dam.post.service.impiments;
 
 import static com.peppone.dam.exception.ErrorCode.BOARD_NOT_FOUND;
 import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
+import static com.peppone.dam.exception.ErrorCode.POST_ACCESS_IS_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.POST_ACCESS_IS_DENIED;
 import static com.peppone.dam.exception.ErrorCode.POST_IS_DELETED;
 import static com.peppone.dam.exception.ErrorCode.POST_NOT_FOUND;
@@ -155,6 +156,55 @@ public class PostServiceImpl implements PostService {
     post.setDeletedTime(LocalDateTime.now());
 
     return responseService.getSingleResponse(id + " 번 게시글 삭제!");
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse postAllowAccess(long id, UserEntity user) {
+
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
+
+    if (user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    if (post.isAccess()) {
+      throw new CustomException(POST_ACCESS_IS_ALLOWED);
+    }
+
+    post.setAccess(true);
+
+    return responseService.getSingleResponse(post);
+  }
+
+  @Transactional
+  @Override
+  public CommonResponse postDenyAccess(long id, UserEntity user) {
+
+    PostEntity post = postRepository.findById(id)
+        .orElseThrow(() -> new CustomException(POST_NOT_FOUND));
+
+    if (post.getDeletedTime() != null) {
+      throw new CustomException(POST_IS_DELETED);
+    }
+
+    if (user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+
+    if (!post.isAccess()) {
+      throw new CustomException(POST_ACCESS_IS_DENIED);
+    }
+
+    post.setAccess(false);
+
+    return responseService.getSingleResponse(post);
   }
 
 }

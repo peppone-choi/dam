@@ -65,7 +65,7 @@ Dam: A threaded forum platform
   - [x] 게시판 관리 API 에서는 게시판 이름, 게시판 url, 게시판 유형(mini, minor, major)을 관리한다.
 
 * 게시글 관리 기능
-  - [ ] 게시글, 댓글을 수정 및 삭제할 수 있는 API를 만든다.
+  - [x] 게시글, 댓글을 수정 및 삭제할 수 있는 API를 만든다.
   - [ ] 게시글에 대한 접근을 막거나 푸는 API를 만든다.
 
 * 회원 관리 기능
@@ -76,6 +76,3 @@ Dam: A threaded forum platform
 
 
 ## Trouble Shooting
-
-* DB에 쓸 수 없는 예약어에 대해 확실히 점검하였습니다.
-  - https://jaime-note.tistory.com/372

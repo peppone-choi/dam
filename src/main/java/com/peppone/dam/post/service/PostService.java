@@ -18,4 +18,8 @@ public interface PostService {
   CommonResponse editPost(long id, UserEntity user, EditPostDto editPostDto);
 
   CommonResponse deletePost(long id, UserEntity user);
+
+  CommonResponse postAllowAccess(long id, UserEntity user);
+
+  CommonResponse postDenyAccess(long id, UserEntity user);
 }

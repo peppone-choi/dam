@@ -63,6 +63,11 @@ public enum ErrorCode {
   POST_IS_DELETED(10041, "이미 삭제된 게시물 입니다."),
 
   /*
+   * 접근 허용 된 게시물임
+   */
+  POST_ACCESS_IS_ALLOWED(10040, "접근 허용된 게시물입니다."),
+
+  /*
    * 권한이 없음
    */
   NOT_ALLOWED(10050, "권한이 없습니다."),

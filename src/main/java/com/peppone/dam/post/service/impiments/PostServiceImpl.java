@@ -133,8 +133,6 @@ public class PostServiceImpl implements PostService {
     post.setSubject(editPostDto.getSubject());
     post.setContent(editPostDto.getContent());
 
-    postRepository.save(post);
-
     return responseService.getSingleResponse(ReadPostDto.from(post));
   }
 
@@ -155,8 +153,6 @@ public class PostServiceImpl implements PostService {
     }
 
     post.setDeletedTime(LocalDateTime.now());
-
-    postRepository.save(post);
 
     return responseService.getSingleResponse(id + " 번 게시글 삭제!");
   }

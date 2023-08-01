@@ -171,6 +171,24 @@ public class UserServiceImpl implements UserService {
     return responseService.getSingleResponse(UserInfoDto.from(changeUser));
   }
 
+  @Override
+  public CommonResponse deleteUser(long id, UserEntity user) {
+
+    UserEntity deleteUser =  userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+    if (deleteUser == null || deleteUser.getRemovedDate() != null) {
+      throw new CustomException(USER_NOT_FOUND);
+    }
+
+    if(deleteUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    deleteUser.setRemovedDate(LocalDateTime.now());
+
+    return responseService.getSingleResponse("회원이 삭제 되었습니다!");
+  }
 
 
 }

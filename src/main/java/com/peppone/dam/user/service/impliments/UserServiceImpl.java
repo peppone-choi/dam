@@ -2,6 +2,7 @@ package com.peppone.dam.user.service.impliments;
 
 import static com.peppone.dam.exception.ErrorCode.BLOCKED_USER;
 import static com.peppone.dam.exception.ErrorCode.EMAIL_DUPLICATED;
+import static com.peppone.dam.exception.ErrorCode.NOT_ALLOWED;
 import static com.peppone.dam.exception.ErrorCode.PASSWORD_NOT_MATCH;
 import static com.peppone.dam.exception.ErrorCode.USER_NOT_FOUND;
 
@@ -10,6 +11,7 @@ import com.peppone.dam.response.CommonResponse;
 import com.peppone.dam.response.ResponseService;
 import com.peppone.dam.token.TokenService;
 import com.peppone.dam.user.domain.UserEntity;
+import com.peppone.dam.user.dto.ChangeUserDetailDto;
 import com.peppone.dam.user.dto.LoginDto;
 import com.peppone.dam.user.dto.SignInDto;
 import com.peppone.dam.user.dto.UserInfoDto;
@@ -18,6 +20,7 @@ import com.peppone.dam.user.service.UserService;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -138,7 +141,36 @@ public class UserServiceImpl implements UserService {
     if (user == null || user.getRemovedDate() != null) {
       throw new CustomException(USER_NOT_FOUND);
     }
-    return null;
+
+    if(!user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    user.setRole(List.of(new String[]{"ROLE_ADMIN", "ROLE_USER"}));
+    return responseService.getSingleResponse(UserInfoDto.from(user));
   }
+
+  @Transactional
+  @Override
+  public CommonResponse changeUserDetail(long id, UserEntity user,
+      ChangeUserDetailDto changeUserDetailDto) {
+
+    UserEntity changeUser = userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+    if (changeUser == null || changeUser.getRemovedDate() != null) {
+      throw new CustomException(USER_NOT_FOUND);
+    }
+
+    if(changeUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    changeUser.setNickname(changeUser.getNickname());
+
+    return responseService.getSingleResponse(UserInfoDto.from(changeUser));
+  }
+
+
 
 }

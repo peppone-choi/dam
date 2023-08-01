@@ -19,4 +19,6 @@ public interface UserService {
   CommonResponse promoteAdmin(long id);
 
   CommonResponse changeUserDetail(long id, UserEntity user, ChangeUserDetailDto changeUserDetailDto);
+
+  CommonResponse deleteUser(long id, UserEntity user);
 }

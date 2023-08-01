@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
+
   private final TokenService tokenService;
   private final UserService userService;
 
@@ -57,4 +58,12 @@ public class UserController {
     UserEntity user = tokenService.tokenValidation(token);
     return userService.changeUserDetail(id, user, changeUserDetailDto);
   }
+
+  @DeleteMapping("/api/user/{id}")
+  public CommonResponse userDelete(@RequestHeader(name = "Authorization") String token,
+      @PathVariable long id) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return userService.deleteUser(id, user);
+  }
+
 }

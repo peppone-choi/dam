@@ -160,6 +160,7 @@ public class UserServiceImpl implements UserService {
     UserEntity deleteUser = userTake(id);
 
     if (deleteUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
+      
       throw new CustomException(NOT_ALLOWED);
     }
 

@@ -57,4 +57,10 @@ public class UserController {
     UserEntity user = tokenService.tokenValidation(token);
     return userService.changeUserDetail(id, user, changeUserDetailDto);
   }
+
+  @DeleteMapping("/api/user/{id}")
+  public CommonResponse deleteUser(long id, @RequestHeader(name = "Authorization") String token) {
+    UserEntity user = tokenService.tokenValidation(token);
+    return userService.deleteUser(id, user);
+  }
 }

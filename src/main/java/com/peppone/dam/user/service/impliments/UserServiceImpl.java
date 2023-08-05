@@ -91,12 +91,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public CommonResponse logIn(LoginDto login) {
-    UserEntity loginUser = userRepository.findByUserEmail(login.getUserEmail());
+    UserEntity loginUser = userTake(userRepository.findByUserEmail(login.getUserEmail()).getId());
     boolean isBlocked = false;
-
-    if (loginUser == null || loginUser.getRemovedDate() != null) {
-      throw new CustomException(USER_NOT_FOUND);
-    }
 
     if (!checkPassword(login.getPassword(), loginUser.getPassword())) {
       throw new CustomException(PASSWORD_NOT_MATCH);
@@ -118,12 +114,7 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @Override
   public CommonResponse signOut(String token) {
-    UserEntity user = userRepository.findByUserEmail(
-        tokenService.tokenValidation(token).getUserEmail());
-
-    if (user == null || user.getRemovedDate() != null) {
-      throw new CustomException(USER_NOT_FOUND);
-    }
+    UserEntity user = userTake(tokenService.tokenValidation(token).getId());
 
     user.setRemovedDate(LocalDateTime.now());
 
@@ -136,13 +127,9 @@ public class UserServiceImpl implements UserService {
   @Transactional
   @Override
   public CommonResponse promoteAdmin(long id) {
-    UserEntity user = userRepository.findById(id)
-        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-    if (user == null || user.getRemovedDate() != null) {
-      throw new CustomException(USER_NOT_FOUND);
-    }
+    UserEntity user = userTake(id);
 
-    if(!user.getRole().get(0).equals("ROLE_ADMIN")) {
+    if (!user.getRole().get(0).equals("ROLE_ADMIN")) {
       throw new CustomException(NOT_ALLOWED);
     }
 
@@ -155,14 +142,9 @@ public class UserServiceImpl implements UserService {
   public CommonResponse changeUserDetail(long id, UserEntity user,
       ChangeUserDetailDto changeUserDetailDto) {
 
-    UserEntity changeUser = userRepository.findById(id)
-        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+    UserEntity changeUser = userTake(id);
 
-    if (changeUser == null || changeUser.getRemovedDate() != null) {
-      throw new CustomException(USER_NOT_FOUND);
-    }
-
-    if(changeUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
+    if (changeUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
       throw new CustomException(NOT_ALLOWED);
     }
 
@@ -171,6 +153,30 @@ public class UserServiceImpl implements UserService {
     return responseService.getSingleResponse(UserInfoDto.from(changeUser));
   }
 
+  @Transactional
+  @Override
+  public CommonResponse deleteUser(long id, UserEntity user) {
 
+    UserEntity deleteUser = userTake(id);
+
+    if (deleteUser.getId() == user.getId() && !user.getRole().get(0).equals("ROLE_ADMIN")) {
+      throw new CustomException(NOT_ALLOWED);
+    }
+
+    deleteUser.setRemovedDate(LocalDateTime.now());
+
+    return responseService.getSingleResponse(deleteUser.getId());
+  }
+
+  public UserEntity userTake(long id) {
+    UserEntity user = userRepository.findById(id)
+        .orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+
+    if (user == null || user.getRemovedDate() != null) {
+      throw new CustomException(USER_NOT_FOUND);
+    }
+
+    return user;
+  }
 
 }

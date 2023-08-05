@@ -60,10 +60,8 @@ public class UserController {
   }
 
   @DeleteMapping("/api/user/{id}")
-  public CommonResponse userDelete(@RequestHeader(name = "Authorization") String token,
-      @PathVariable long id) {
+  public CommonResponse deleteUser(long id, @RequestHeader(name = "Authorization") String token) {
     UserEntity user = tokenService.tokenValidation(token);
     return userService.deleteUser(id, user);
   }
-
 }

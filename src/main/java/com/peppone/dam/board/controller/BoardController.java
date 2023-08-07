@@ -67,9 +67,18 @@ public class BoardController {
       @RequestParam(name = "page", defaultValue = "0") long page,
       @RequestParam(name = "size", defaultValue = "10") long size,
       @RequestParam(name = "order", defaultValue = "id") OrderType order,
-      @RequestParam(name= "order_direction", defaultValue = "true") boolean orderDirection,
+      @RequestParam(name = "order_direction", defaultValue = "true") boolean orderDirection,
       Pageable pageable) {
     return boardService.getBoardPostList(id, page, size, order, orderDirection, pageable);
+  }
+
+  @GetMapping("/api/board/main")
+  public CommonResponse getMainPostList(
+      @RequestParam(name = "page", defaultValue = "0") long page,
+      @RequestParam(name = "order", defaultValue = "id") OrderType order,
+      @RequestParam(name = "order_direction", defaultValue = "true") boolean orderDirection,
+      Pageable pageable) {
+    return boardService.getMainPostList(page, order, orderDirection, pageable);
   }
 
   @GetMapping("/api/board/{id}/pinned")

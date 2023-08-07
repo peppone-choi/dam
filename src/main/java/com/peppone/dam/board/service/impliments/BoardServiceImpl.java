@@ -175,10 +175,31 @@ public class BoardServiceImpl implements BoardService {
     return responseService.getSingleResponse(response);
   }
 
+  @Override
+  public CommonResponse getMainPostList(long page, OrderType order, boolean orderDirection,
+      Pageable pageable) {
+
+    PageRequest pageRequest = null;
+
+    if (orderDirection) {
+      pageRequest = PageRequest.of((int) page, 10,
+          Sort.by(order.toString()).descending());
+    } else {
+      pageRequest = PageRequest.of((int) page, 10,
+          Sort.by(order.toString()).ascending());
+    }
+
+    List<ReadPostDto> mainList = postRepository.
+        findAllByBoardTypeBoardTypeMajorAndPostTypePostTypeGeneralAndAccessIsTrueAndDeletedTimeIsEmpty(
+            pageRequest).stream().map(ReadPostDto::from).toList();
+
+    return responseService.getListResponse(mainList);
+  }
+
   private List<ReadPostDto> getPostByType(BoardEntity board, PageRequest pageRequest,
       PostType postType) {
     return postRepository
-        .findAllByBoardIdAndPostTypeAndAccessTrueAAndDeletedTimeIsEmpty(board, pageRequest, postType)
+        .findAllByBoardIdAndPostTypeAndAccessTrueAndDeletedTimeIsEmpty(board, pageRequest, postType)
         .stream().map(ReadPostDto::from).toList();
   }
 }

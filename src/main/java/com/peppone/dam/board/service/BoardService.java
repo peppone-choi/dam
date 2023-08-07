@@ -24,4 +24,6 @@ public interface BoardService {
   CommonResponse getBoardNoticePostList(String id);
 
   CommonResponse editBoard(BoardEditDto boardEditDto, UserEntity user);
+
+  CommonResponse getMainPostList(long page, OrderType order, boolean orderDirection, Pageable pageable);
 }
